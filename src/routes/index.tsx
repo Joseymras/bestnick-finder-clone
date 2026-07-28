@@ -50,7 +50,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Generate stylish nicknames, fancy fonts and available usernames in seconds. 100% free, no sign-up.",
+          "Free nickname generator, fancy text maker and username finder. Create stylish names with symbols for Free Fire, PUBG, Discord, Instagram and TikTok.",
       },
       { property: "og:url", content: SITE.url },
     ],
