@@ -53,7 +53,6 @@ export const Route = createFileRoute("/")({
           "Generate stylish nicknames, fancy fonts and available usernames in seconds. 100% free, no sign-up.",
       },
       { property: "og:url", content: SITE.url },
-      { rel: "canonical", href: SITE.url } as never,
     ],
     links: [{ rel: "canonical", href: SITE.url }],
   }),
