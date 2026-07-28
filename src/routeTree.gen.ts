@@ -9,8 +9,32 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UsernameGeneratorRouteImport } from './routes/username-generator'
+import { Route as NicknameGeneratorRouteImport } from './routes/nickname-generator'
+import { Route as NameMixerRouteImport } from './routes/name-mixer'
+import { Route as FancyTextGeneratorRouteImport } from './routes/fancy-text-generator'
 import { Route as IndexRouteImport } from './routes/index'
 
+const UsernameGeneratorRoute = UsernameGeneratorRouteImport.update({
+  id: '/username-generator',
+  path: '/username-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NicknameGeneratorRoute = NicknameGeneratorRouteImport.update({
+  id: '/nickname-generator',
+  path: '/nickname-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NameMixerRoute = NameMixerRouteImport.update({
+  id: '/name-mixer',
+  path: '/name-mixer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FancyTextGeneratorRoute = FancyTextGeneratorRouteImport.update({
+  id: '/fancy-text-generator',
+  path: '/fancy-text-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +43,88 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/fancy-text-generator': typeof FancyTextGeneratorRoute
+  '/name-mixer': typeof NameMixerRoute
+  '/nickname-generator': typeof NicknameGeneratorRoute
+  '/username-generator': typeof UsernameGeneratorRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/fancy-text-generator': typeof FancyTextGeneratorRoute
+  '/name-mixer': typeof NameMixerRoute
+  '/nickname-generator': typeof NicknameGeneratorRoute
+  '/username-generator': typeof UsernameGeneratorRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/fancy-text-generator': typeof FancyTextGeneratorRoute
+  '/name-mixer': typeof NameMixerRoute
+  '/nickname-generator': typeof NicknameGeneratorRoute
+  '/username-generator': typeof UsernameGeneratorRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/fancy-text-generator'
+    | '/name-mixer'
+    | '/nickname-generator'
+    | '/username-generator'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/fancy-text-generator'
+    | '/name-mixer'
+    | '/nickname-generator'
+    | '/username-generator'
+  id:
+    | '__root__'
+    | '/'
+    | '/fancy-text-generator'
+    | '/name-mixer'
+    | '/nickname-generator'
+    | '/username-generator'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FancyTextGeneratorRoute: typeof FancyTextGeneratorRoute
+  NameMixerRoute: typeof NameMixerRoute
+  NicknameGeneratorRoute: typeof NicknameGeneratorRoute
+  UsernameGeneratorRoute: typeof UsernameGeneratorRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/username-generator': {
+      id: '/username-generator'
+      path: '/username-generator'
+      fullPath: '/username-generator'
+      preLoaderRoute: typeof UsernameGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nickname-generator': {
+      id: '/nickname-generator'
+      path: '/nickname-generator'
+      fullPath: '/nickname-generator'
+      preLoaderRoute: typeof NicknameGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/name-mixer': {
+      id: '/name-mixer'
+      path: '/name-mixer'
+      fullPath: '/name-mixer'
+      preLoaderRoute: typeof NameMixerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fancy-text-generator': {
+      id: '/fancy-text-generator'
+      path: '/fancy-text-generator'
+      fullPath: '/fancy-text-generator'
+      preLoaderRoute: typeof FancyTextGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +137,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FancyTextGeneratorRoute: FancyTextGeneratorRoute,
+  NameMixerRoute: NameMixerRoute,
+  NicknameGeneratorRoute: NicknameGeneratorRoute,
+  UsernameGeneratorRoute: UsernameGeneratorRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
