@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/site/Layout";
 import { GUIDES, SITE } from "@/lib/content";
 
-export const Route = createFileRoute("/guides")({
+export const Route = createFileRoute("/guides/")({
   head: () => ({
     meta: [
       { title: "Naming Guides — Usernames, Nicknames & Unicode | BestNickFinder" },

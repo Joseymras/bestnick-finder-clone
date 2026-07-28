@@ -10,14 +10,35 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UsernameGeneratorRouteImport } from './routes/username-generator'
+import { Route as ToolsRouteImport } from './routes/tools'
+import { Route as SymbolsRouteImport } from './routes/symbols'
+import { Route as PasswordGeneratorRouteImport } from './routes/password-generator'
 import { Route as NicknameGeneratorRouteImport } from './routes/nickname-generator'
 import { Route as NameMixerRouteImport } from './routes/name-mixer'
 import { Route as FancyTextGeneratorRouteImport } from './routes/fancy-text-generator'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GuidesIndexRouteImport } from './routes/guides.index'
+import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
+import { Route as GeneratorSlugRouteImport } from './routes/generator.$slug'
 
 const UsernameGeneratorRoute = UsernameGeneratorRouteImport.update({
   id: '/username-generator',
   path: '/username-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsRoute = ToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SymbolsRoute = SymbolsRouteImport.update({
+  id: '/symbols',
+  path: '/symbols',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PasswordGeneratorRoute = PasswordGeneratorRouteImport.update({
+  id: '/password-generator',
+  path: '/password-generator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NicknameGeneratorRoute = NicknameGeneratorRouteImport.update({
@@ -40,20 +61,47 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GuidesIndexRoute = GuidesIndexRouteImport.update({
+  id: '/guides/',
+  path: '/guides/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesSlugRoute = GuidesSlugRouteImport.update({
+  id: '/guides/$slug',
+  path: '/guides/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GeneratorSlugRoute = GeneratorSlugRouteImport.update({
+  id: '/generator/$slug',
+  path: '/generator/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fancy-text-generator': typeof FancyTextGeneratorRoute
   '/name-mixer': typeof NameMixerRoute
   '/nickname-generator': typeof NicknameGeneratorRoute
+  '/password-generator': typeof PasswordGeneratorRoute
+  '/symbols': typeof SymbolsRoute
+  '/tools': typeof ToolsRoute
   '/username-generator': typeof UsernameGeneratorRoute
+  '/generator/$slug': typeof GeneratorSlugRoute
+  '/guides/$slug': typeof GuidesSlugRoute
+  '/guides/': typeof GuidesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/fancy-text-generator': typeof FancyTextGeneratorRoute
   '/name-mixer': typeof NameMixerRoute
   '/nickname-generator': typeof NicknameGeneratorRoute
+  '/password-generator': typeof PasswordGeneratorRoute
+  '/symbols': typeof SymbolsRoute
+  '/tools': typeof ToolsRoute
   '/username-generator': typeof UsernameGeneratorRoute
+  '/generator/$slug': typeof GeneratorSlugRoute
+  '/guides/$slug': typeof GuidesSlugRoute
+  '/guides': typeof GuidesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -61,7 +109,13 @@ export interface FileRoutesById {
   '/fancy-text-generator': typeof FancyTextGeneratorRoute
   '/name-mixer': typeof NameMixerRoute
   '/nickname-generator': typeof NicknameGeneratorRoute
+  '/password-generator': typeof PasswordGeneratorRoute
+  '/symbols': typeof SymbolsRoute
+  '/tools': typeof ToolsRoute
   '/username-generator': typeof UsernameGeneratorRoute
+  '/generator/$slug': typeof GeneratorSlugRoute
+  '/guides/$slug': typeof GuidesSlugRoute
+  '/guides/': typeof GuidesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -70,21 +124,39 @@ export interface FileRouteTypes {
     | '/fancy-text-generator'
     | '/name-mixer'
     | '/nickname-generator'
+    | '/password-generator'
+    | '/symbols'
+    | '/tools'
     | '/username-generator'
+    | '/generator/$slug'
+    | '/guides/$slug'
+    | '/guides/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/fancy-text-generator'
     | '/name-mixer'
     | '/nickname-generator'
+    | '/password-generator'
+    | '/symbols'
+    | '/tools'
     | '/username-generator'
+    | '/generator/$slug'
+    | '/guides/$slug'
+    | '/guides'
   id:
     | '__root__'
     | '/'
     | '/fancy-text-generator'
     | '/name-mixer'
     | '/nickname-generator'
+    | '/password-generator'
+    | '/symbols'
+    | '/tools'
     | '/username-generator'
+    | '/generator/$slug'
+    | '/guides/$slug'
+    | '/guides/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -92,7 +164,13 @@ export interface RootRouteChildren {
   FancyTextGeneratorRoute: typeof FancyTextGeneratorRoute
   NameMixerRoute: typeof NameMixerRoute
   NicknameGeneratorRoute: typeof NicknameGeneratorRoute
+  PasswordGeneratorRoute: typeof PasswordGeneratorRoute
+  SymbolsRoute: typeof SymbolsRoute
+  ToolsRoute: typeof ToolsRoute
   UsernameGeneratorRoute: typeof UsernameGeneratorRoute
+  GeneratorSlugRoute: typeof GeneratorSlugRoute
+  GuidesSlugRoute: typeof GuidesSlugRoute
+  GuidesIndexRoute: typeof GuidesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -102,6 +180,27 @@ declare module '@tanstack/react-router' {
       path: '/username-generator'
       fullPath: '/username-generator'
       preLoaderRoute: typeof UsernameGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools': {
+      id: '/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/symbols': {
+      id: '/symbols'
+      path: '/symbols'
+      fullPath: '/symbols'
+      preLoaderRoute: typeof SymbolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/password-generator': {
+      id: '/password-generator'
+      path: '/password-generator'
+      fullPath: '/password-generator'
+      preLoaderRoute: typeof PasswordGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/nickname-generator': {
@@ -132,6 +231,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/guides/': {
+      id: '/guides/'
+      path: '/guides'
+      fullPath: '/guides/'
+      preLoaderRoute: typeof GuidesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/$slug': {
+      id: '/guides/$slug'
+      path: '/guides/$slug'
+      fullPath: '/guides/$slug'
+      preLoaderRoute: typeof GuidesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/generator/$slug': {
+      id: '/generator/$slug'
+      path: '/generator/$slug'
+      fullPath: '/generator/$slug'
+      preLoaderRoute: typeof GeneratorSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -140,7 +260,13 @@ const rootRouteChildren: RootRouteChildren = {
   FancyTextGeneratorRoute: FancyTextGeneratorRoute,
   NameMixerRoute: NameMixerRoute,
   NicknameGeneratorRoute: NicknameGeneratorRoute,
+  PasswordGeneratorRoute: PasswordGeneratorRoute,
+  SymbolsRoute: SymbolsRoute,
+  ToolsRoute: ToolsRoute,
   UsernameGeneratorRoute: UsernameGeneratorRoute,
+  GeneratorSlugRoute: GeneratorSlugRoute,
+  GuidesSlugRoute: GuidesSlugRoute,
+  GuidesIndexRoute: GuidesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

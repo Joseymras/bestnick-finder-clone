@@ -75,7 +75,7 @@ function Page() {
       <section className="mt-10">
         <h2 className="mb-3 font-display text-2xl font-bold">Ready-made examples</h2>
         <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-          {niche.examples.map((e) => (
+          {niche.examples.map((e: string) => (
             <CopyCard key={e} value={e} size="sm" />
           ))}
         </div>
