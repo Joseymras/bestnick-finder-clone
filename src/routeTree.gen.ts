@@ -11,11 +11,18 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UsernameGeneratorRouteImport } from './routes/username-generator'
 import { Route as ToolsRouteImport } from './routes/tools'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SymbolsRouteImport } from './routes/symbols'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PasswordGeneratorRouteImport } from './routes/password-generator'
 import { Route as NicknameGeneratorRouteImport } from './routes/nickname-generator'
 import { Route as NameMixerRouteImport } from './routes/name-mixer'
 import { Route as FancyTextGeneratorRouteImport } from './routes/fancy-text-generator'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
+import { Route as CookiePolicyRouteImport } from './routes/cookie-policy'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GuidesIndexRouteImport } from './routes/guides.index'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
@@ -31,9 +38,24 @@ const ToolsRoute = ToolsRouteImport.update({
   path: '/tools',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SymbolsRoute = SymbolsRouteImport.update({
   id: '/symbols',
   path: '/symbols',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PasswordGeneratorRoute = PasswordGeneratorRouteImport.update({
@@ -54,6 +76,26 @@ const NameMixerRoute = NameMixerRouteImport.update({
 const FancyTextGeneratorRoute = FancyTextGeneratorRouteImport.update({
   id: '/fancy-text-generator',
   path: '/fancy-text-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiePolicyRoute = CookiePolicyRouteImport.update({
+  id: '/cookie-policy',
+  path: '/cookie-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -79,11 +121,18 @@ const GeneratorSlugRoute = GeneratorSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/cookie-policy': typeof CookiePolicyRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/fancy-text-generator': typeof FancyTextGeneratorRoute
   '/name-mixer': typeof NameMixerRoute
   '/nickname-generator': typeof NicknameGeneratorRoute
   '/password-generator': typeof PasswordGeneratorRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/symbols': typeof SymbolsRoute
+  '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
   '/username-generator': typeof UsernameGeneratorRoute
   '/generator/$slug': typeof GeneratorSlugRoute
@@ -92,11 +141,18 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/cookie-policy': typeof CookiePolicyRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/fancy-text-generator': typeof FancyTextGeneratorRoute
   '/name-mixer': typeof NameMixerRoute
   '/nickname-generator': typeof NicknameGeneratorRoute
   '/password-generator': typeof PasswordGeneratorRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/symbols': typeof SymbolsRoute
+  '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
   '/username-generator': typeof UsernameGeneratorRoute
   '/generator/$slug': typeof GeneratorSlugRoute
@@ -106,11 +162,18 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/cookie-policy': typeof CookiePolicyRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/fancy-text-generator': typeof FancyTextGeneratorRoute
   '/name-mixer': typeof NameMixerRoute
   '/nickname-generator': typeof NicknameGeneratorRoute
   '/password-generator': typeof PasswordGeneratorRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/symbols': typeof SymbolsRoute
+  '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
   '/username-generator': typeof UsernameGeneratorRoute
   '/generator/$slug': typeof GeneratorSlugRoute
@@ -121,11 +184,18 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
+    | '/contact'
+    | '/cookie-policy'
+    | '/disclaimer'
     | '/fancy-text-generator'
     | '/name-mixer'
     | '/nickname-generator'
     | '/password-generator'
+    | '/privacy-policy'
+    | '/sitemap.xml'
     | '/symbols'
+    | '/terms'
     | '/tools'
     | '/username-generator'
     | '/generator/$slug'
@@ -134,11 +204,18 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
+    | '/contact'
+    | '/cookie-policy'
+    | '/disclaimer'
     | '/fancy-text-generator'
     | '/name-mixer'
     | '/nickname-generator'
     | '/password-generator'
+    | '/privacy-policy'
+    | '/sitemap.xml'
     | '/symbols'
+    | '/terms'
     | '/tools'
     | '/username-generator'
     | '/generator/$slug'
@@ -147,11 +224,18 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
+    | '/contact'
+    | '/cookie-policy'
+    | '/disclaimer'
     | '/fancy-text-generator'
     | '/name-mixer'
     | '/nickname-generator'
     | '/password-generator'
+    | '/privacy-policy'
+    | '/sitemap.xml'
     | '/symbols'
+    | '/terms'
     | '/tools'
     | '/username-generator'
     | '/generator/$slug'
@@ -161,11 +245,18 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  CookiePolicyRoute: typeof CookiePolicyRoute
+  DisclaimerRoute: typeof DisclaimerRoute
   FancyTextGeneratorRoute: typeof FancyTextGeneratorRoute
   NameMixerRoute: typeof NameMixerRoute
   NicknameGeneratorRoute: typeof NicknameGeneratorRoute
   PasswordGeneratorRoute: typeof PasswordGeneratorRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SymbolsRoute: typeof SymbolsRoute
+  TermsRoute: typeof TermsRoute
   ToolsRoute: typeof ToolsRoute
   UsernameGeneratorRoute: typeof UsernameGeneratorRoute
   GeneratorSlugRoute: typeof GeneratorSlugRoute
@@ -189,11 +280,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/symbols': {
       id: '/symbols'
       path: '/symbols'
       fullPath: '/symbols'
       preLoaderRoute: typeof SymbolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/password-generator': {
@@ -222,6 +334,34 @@ declare module '@tanstack/react-router' {
       path: '/fancy-text-generator'
       fullPath: '/fancy-text-generator'
       preLoaderRoute: typeof FancyTextGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookie-policy': {
+      id: '/cookie-policy'
+      path: '/cookie-policy'
+      fullPath: '/cookie-policy'
+      preLoaderRoute: typeof CookiePolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -257,11 +397,18 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  CookiePolicyRoute: CookiePolicyRoute,
+  DisclaimerRoute: DisclaimerRoute,
   FancyTextGeneratorRoute: FancyTextGeneratorRoute,
   NameMixerRoute: NameMixerRoute,
   NicknameGeneratorRoute: NicknameGeneratorRoute,
   PasswordGeneratorRoute: PasswordGeneratorRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SymbolsRoute: SymbolsRoute,
+  TermsRoute: TermsRoute,
   ToolsRoute: ToolsRoute,
   UsernameGeneratorRoute: UsernameGeneratorRoute,
   GeneratorSlugRoute: GeneratorSlugRoute,
