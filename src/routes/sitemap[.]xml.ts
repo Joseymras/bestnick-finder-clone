@@ -29,6 +29,12 @@ export const Route = createFileRoute("/sitemap.xml")({
             changefreq: "weekly" as const,
             priority: "0.8",
           })),
+          { path: "/ideas", changefreq: "weekly" as const, priority: "0.9" },
+          ...LANDING_PAGES.map((l) => ({
+            path: `/ideas/${l.slug}`,
+            changefreq: "weekly" as const,
+            priority: "0.8",
+          })),
           ...GUIDES.map((g) => ({
             path: `/guides/${g.slug}`,
             changefreq: "monthly" as const,
