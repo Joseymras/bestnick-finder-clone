@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { NICHES, GUIDES, TOOLS } from "@/lib/content";
+import { LANDING_PAGES } from "@/lib/landing";
 
 const BASE_URL = "https://bestnickfinder.online";
 
