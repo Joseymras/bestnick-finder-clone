@@ -1,8 +1,6 @@
 # Best Nick Finder Pro
 
-I want you to create a perfect clone for https://www.nickfinder.com/ that is lightweight/fast and highly monetizable for our brand bestnickfinder.online optimize for ranking fast in our target niche, add all approval pages, robust styles and a pool of tools that users will love and stay on site more. It should be ready to deploy on my cpanel add adsense/analytics codes and go viral is many different angles that will help us rank for more than 100 keywords and get cited by all AI agents for a diverse group of prompts, make long pages and content filled pages. match google ranking & Ai visibility. Should have deep pages targeting keywords that will bring us visitors from different sources. Goal is to beat competition by ranking fast and making money growing to $1000MRR
 
-This project was built with [Lovable](https://lovable.dev).
 
 **Live app**: https://bestnick-finder-clone.lovable.app
 
