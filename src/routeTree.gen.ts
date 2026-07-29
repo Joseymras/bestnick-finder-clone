@@ -25,6 +25,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GuidesIndexRouteImport } from './routes/guides.index'
+import { Route as IdeasSlugRouteImport } from './routes/ideas.$slug'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as GeneratorSlugRouteImport } from './routes/generator.$slug'
 
@@ -108,6 +109,11 @@ const GuidesIndexRoute = GuidesIndexRouteImport.update({
   path: '/guides/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IdeasSlugRoute = IdeasSlugRouteImport.update({
+  id: '/ideas/$slug',
+  path: '/ideas/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GuidesSlugRoute = GuidesSlugRouteImport.update({
   id: '/guides/$slug',
   path: '/guides/$slug',
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/username-generator': typeof UsernameGeneratorRoute
   '/generator/$slug': typeof GeneratorSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/ideas/$slug': typeof IdeasSlugRoute
   '/guides/': typeof GuidesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -157,6 +164,7 @@ export interface FileRoutesByTo {
   '/username-generator': typeof UsernameGeneratorRoute
   '/generator/$slug': typeof GeneratorSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/ideas/$slug': typeof IdeasSlugRoute
   '/guides': typeof GuidesIndexRoute
 }
 export interface FileRoutesById {
@@ -178,6 +186,7 @@ export interface FileRoutesById {
   '/username-generator': typeof UsernameGeneratorRoute
   '/generator/$slug': typeof GeneratorSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/ideas/$slug': typeof IdeasSlugRoute
   '/guides/': typeof GuidesIndexRoute
 }
 export interface FileRouteTypes {
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
     | '/username-generator'
     | '/generator/$slug'
     | '/guides/$slug'
+    | '/ideas/$slug'
     | '/guides/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/username-generator'
     | '/generator/$slug'
     | '/guides/$slug'
+    | '/ideas/$slug'
     | '/guides'
   id:
     | '__root__'
@@ -240,6 +251,7 @@ export interface FileRouteTypes {
     | '/username-generator'
     | '/generator/$slug'
     | '/guides/$slug'
+    | '/ideas/$slug'
     | '/guides/'
   fileRoutesById: FileRoutesById
 }
@@ -261,6 +273,7 @@ export interface RootRouteChildren {
   UsernameGeneratorRoute: typeof UsernameGeneratorRoute
   GeneratorSlugRoute: typeof GeneratorSlugRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
+  IdeasSlugRoute: typeof IdeasSlugRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
 }
 
@@ -378,6 +391,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuidesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ideas/$slug': {
+      id: '/ideas/$slug'
+      path: '/ideas/$slug'
+      fullPath: '/ideas/$slug'
+      preLoaderRoute: typeof IdeasSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guides/$slug': {
       id: '/guides/$slug'
       path: '/guides/$slug'
@@ -413,6 +433,7 @@ const rootRouteChildren: RootRouteChildren = {
   UsernameGeneratorRoute: UsernameGeneratorRoute,
   GeneratorSlugRoute: GeneratorSlugRoute,
   GuidesSlugRoute: GuidesSlugRoute,
+  IdeasSlugRoute: IdeasSlugRoute,
   GuidesIndexRoute: GuidesIndexRoute,
 }
 export const routeTree = rootRouteImport
