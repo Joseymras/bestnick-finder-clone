@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/site/Layout";
-import { CopyChip } from "@/components/site/CopyCard";
+import { SymbolPalette } from "@/components/site/SymbolPalette";
 import { JsonLd, Prose, RelatedLinks } from "@/components/site/Blocks";
 import { FaqSection, faqJsonLd } from "@/components/site/Faq";
 import { AdSlot } from "@/components/site/AdSlot";
-import { SYMBOL_GROUPS } from "@/lib/fancy";
+import { ExploreMore } from "@/components/site/LinkHub";
 import { SITE } from "@/lib/content";
 
 const FAQS = [
