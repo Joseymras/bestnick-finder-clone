@@ -122,6 +122,11 @@ export function SiteFooter() {
                 Guides
               </Link>
             </li>
+            <li>
+              <Link to="/ideas" className="transition-colors hover:text-ink-foreground">
+                Name ideas
+              </Link>
+            </li>
             {FOOTER_LEGAL.map((l) => (
               <li key={l.to}>
                 <Link to={l.to} className="transition-colors hover:text-ink-foreground">
