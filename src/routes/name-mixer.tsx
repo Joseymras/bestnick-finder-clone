@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Breadcrumbs } from "@/components/site/Layout";
-import { CopyCard } from "@/components/site/CopyCard";
+import { SelectableResults, SelectionControls } from "@/components/site/SelectableResults";
+import { ExportBar } from "@/components/site/ExportBar";
+import { ExploreMore } from "@/components/site/LinkHub";
+import { useSelection } from "@/hooks/use-selection";
 import { JsonLd, Prose, RelatedLinks } from "@/components/site/Blocks";
 import { FaqSection, faqJsonLd } from "@/components/site/Faq";
 import { AdSlot } from "@/components/site/AdSlot";
@@ -78,6 +81,11 @@ function Page() {
   const [a, setA] = useState("");
   const [b, setB] = useState("");
   const results = useMemo(() => mixNames(a, b, 30), [a, b]);
+  const { selected, toggle, selectAll, clear, exportLines, count } = useSelection(results);
+
+  useEffect(() => {
+    clear();
+  }, [a, b, clear]);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
@@ -118,11 +126,32 @@ function Page() {
         </div>
 
         {results.length > 0 ? (
-          <div className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {results.map((r) => (
-              <CopyCard key={r} value={r} size="sm" />
-            ))}
-          </div>
+          <>
+            <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+              <SelectionControls
+                total={results.length}
+                selectedCount={count}
+                onSelectAll={selectAll}
+                onClear={clear}
+                tool="name-mixer"
+              />
+              <ExportBar
+                lines={exportLines}
+                fileBase={`${a || "name"}-${b || "mix"}-blends`}
+                title={`${a || "Name"} + ${b || "Name"} — blends`}
+                tool="name-mixer"
+              />
+            </div>
+            <div className="mt-4">
+              <SelectableResults
+                items={results.map((r) => ({ value: r }))}
+                selected={selected}
+                onToggle={toggle}
+                tool="name-mixer"
+                size="sm"
+              />
+            </div>
+          </>
         ) : (
           <p className="mt-5 text-sm text-muted-foreground">
             Enter both names to see blended results.
@@ -138,6 +167,7 @@ function Page() {
 
       <FaqSection faqs={FAQS} />
       <RelatedLinks slugs={["couple-name-generator", "business-name-generator", "cute-nicknames"]} />
+      <ExploreMore />
     </div>
   );
 }

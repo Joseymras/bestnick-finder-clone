@@ -7,6 +7,8 @@ import { AdSlot } from "@/components/site/AdSlot";
 import { CopyChip } from "@/components/site/CopyCard";
 import { SYMBOL_GROUPS } from "@/lib/fancy";
 import { NICHES, GUIDES, SITE } from "@/lib/content";
+import { LANDING_PAGES } from "@/lib/landing";
+import { ExploreMore } from "@/components/site/LinkHub";
 
 const FAQS = [
   {
@@ -103,8 +105,16 @@ function Home() {
                 <span className="text-primary">that people actually copy</span>
               </h1>
               <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-muted">
-                Turn any word into stylish Unicode fonts, decorated gamer tags and available social
-                handles. Everything runs instantly in your browser — free, no sign-up, nothing stored.
+                The most popular username generator and nickname finder on the web. Over 20 million
+                usernames and name ideas — searchable, copyable and ready to use on any platform.
+                Whether you need a creative handle for social media, a unique gamertag, or a
+                professional username for any online service, find it here in seconds.
+              </p>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-muted">
+                Type a name or keyword into the generator below to get username ideas instantly.
+                Browse trending styles and recent nicknames, or explore the menu for stylish text
+                tools, symbol generators and more. Find it, copy it, use it — your next username is
+                one click away.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
@@ -275,6 +285,32 @@ function Home() {
             <FaqSection faqs={FAQS} />
 
             <section className="mt-12">
+              <h2 className="font-display text-2xl font-bold">Name idea collections</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {LANDING_PAGES.length} deep collections — aesthetic, gamer, cute, dark, couple and
+                platform-specific username ideas, each with its own generator.
+              </p>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {LANDING_PAGES.map((p) => (
+                  <Link
+                    key={p.slug}
+                    to="/ideas/$slug"
+                    params={{ slug: p.slug }}
+                    className="surface-card hover-lift px-4 py-3 text-sm font-medium"
+                  >
+                    {p.h1}
+                  </Link>
+                ))}
+              </div>
+              <Link
+                to="/ideas"
+                className="mt-4 inline-block text-sm font-semibold text-primary hover:underline"
+              >
+                Browse all idea collections →
+              </Link>
+            </section>
+
+            <section className="mt-12">
               <h2 className="font-display text-2xl font-bold">Naming guides</h2>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {GUIDES.map((g) => (
@@ -291,6 +327,8 @@ function Home() {
                 ))}
               </div>
             </section>
+
+            <ExploreMore />
           </div>
 
           <aside className="space-y-6">

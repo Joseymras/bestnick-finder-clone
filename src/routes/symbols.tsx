@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/site/Layout";
-import { CopyChip } from "@/components/site/CopyCard";
+import { SymbolPalette } from "@/components/site/SymbolPalette";
 import { JsonLd, Prose, RelatedLinks } from "@/components/site/Blocks";
 import { FaqSection, faqJsonLd } from "@/components/site/Faq";
 import { AdSlot } from "@/components/site/AdSlot";
-import { SYMBOL_GROUPS } from "@/lib/fancy";
+import { ExploreMore } from "@/components/site/LinkHub";
 import { SITE } from "@/lib/content";
 
 const FAQS = [
@@ -75,17 +75,8 @@ function Page() {
         paste it around your nickname, bio or clan tag.
       </p>
 
-      <div className="mt-8 space-y-8">
-        {SYMBOL_GROUPS.map((g) => (
-          <section key={g.slug} id={g.slug}>
-            <h2 className="mb-3 font-display text-xl font-bold">{g.name}</h2>
-            <div className="flex flex-wrap gap-1.5">
-              {g.symbols.map((s) => (
-                <CopyChip key={s} value={s} />
-              ))}
-            </div>
-          </section>
-        ))}
+      <div className="mt-8">
+        <SymbolPalette tool="symbols" />
       </div>
 
       <AdSlot slot="1111111111" />
@@ -96,6 +87,7 @@ function Page() {
 
       <FaqSection faqs={FAQS} />
       <RelatedLinks slugs={["free-fire-name-style", "pubg-name-style", "discord-name-fonts"]} />
+      <ExploreMore />
     </div>
   );
 }

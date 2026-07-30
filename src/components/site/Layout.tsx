@@ -35,6 +35,12 @@ export function SiteHeader() {
             </Link>
           ))}
           <Link
+            to="/ideas"
+            className="rounded-md px-3 py-1.5 text-ink-muted transition-colors hover:bg-white/10 hover:text-ink-foreground"
+          >
+            Name ideas
+          </Link>
+          <Link
             to="/tools"
             className="rounded-md bg-primary px-3 py-1.5 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
           >
@@ -114,6 +120,11 @@ export function SiteFooter() {
             <li>
               <Link to="/guides" className="transition-colors hover:text-ink-foreground">
                 Guides
+              </Link>
+            </li>
+            <li>
+              <Link to="/ideas" className="transition-colors hover:text-ink-foreground">
+                Name ideas
               </Link>
             </li>
             {FOOTER_LEGAL.map((l) => (
