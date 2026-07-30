@@ -87,6 +87,7 @@ function Page() {
 
       <FaqSection faqs={FAQS} />
       <RelatedLinks slugs={["free-fire-name-style", "pubg-name-style", "discord-name-fonts"]} />
+      <ExploreMore />
     </div>
   );
 }
