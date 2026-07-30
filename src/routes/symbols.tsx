@@ -75,17 +75,8 @@ function Page() {
         paste it around your nickname, bio or clan tag.
       </p>
 
-      <div className="mt-8 space-y-8">
-        {SYMBOL_GROUPS.map((g) => (
-          <section key={g.slug} id={g.slug}>
-            <h2 className="mb-3 font-display text-xl font-bold">{g.name}</h2>
-            <div className="flex flex-wrap gap-1.5">
-              {g.symbols.map((s) => (
-                <CopyChip key={s} value={s} />
-              ))}
-            </div>
-          </section>
-        ))}
+      <div className="mt-8">
+        <SymbolPalette tool="symbols" />
       </div>
 
       <AdSlot slot="1111111111" />
