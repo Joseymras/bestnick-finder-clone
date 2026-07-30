@@ -1,7 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Breadcrumbs } from "@/components/site/Layout";
-import { CopyCard } from "@/components/site/CopyCard";
+import { SelectableResults, SelectionControls } from "@/components/site/SelectableResults";
+import { ExportBar } from "@/components/site/ExportBar";
+import { ExploreMore } from "@/components/site/LinkHub";
+import { useSelection } from "@/hooks/use-selection";
+import { track } from "@/lib/analytics";
 import { JsonLd, Prose, RelatedLinks } from "@/components/site/Blocks";
 import { FaqSection, faqJsonLd } from "@/components/site/Faq";
 import { AdSlot } from "@/components/site/AdSlot";
@@ -103,8 +107,13 @@ export const Route = createFileRoute("/username-generator")({
 
 function Page() {
   const [base, setBase] = useState("");
-  const [selected, setSelected] = useState("");
+  const [focused, setFocused] = useState("");
   const results = useMemo(() => usernameVariants(base, 36), [base]);
+  const { selected, toggle, selectAll, clear, exportLines, count } = useSelection(results);
+
+  useEffect(() => {
+    clear();
+  }, [base, clear]);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
@@ -124,25 +133,48 @@ function Page() {
           id="base"
           value={base}
           onChange={(e) => setBase(e.target.value)}
+          onBlur={() => base && track("generate", "username-generator", { length: base.length })}
           placeholder="e.g. aria"
           className="w-full rounded-lg border border-input bg-background px-4 py-3 text-lg outline-none ring-ring/40 transition focus:border-primary focus:ring-4"
         />
 
         {results.length > 0 && (
-          <div className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {results.map((r) => (
-              <div key={r} onClick={() => setSelected(r)}>
-                <CopyCard value={r} size="sm" />
-              </div>
-            ))}
-          </div>
+          <>
+            <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+              <SelectionControls
+                total={results.length}
+                selectedCount={count}
+                onSelectAll={selectAll}
+                onClear={clear}
+                tool="username-generator"
+              />
+              <ExportBar
+                lines={exportLines}
+                fileBase={`${base || "username"}-ideas`}
+                title={`${base || "Username"} — handle ideas`}
+                tool="username-generator"
+              />
+            </div>
+            <div className="mt-4" onClickCapture={(e) => {
+              const t = (e.target as HTMLElement).closest("button");
+              if (t?.textContent) setFocused(t.textContent.trim());
+            }}>
+              <SelectableResults
+                items={results.map((r) => ({ value: r }))}
+                selected={selected}
+                onToggle={toggle}
+                tool="username-generator"
+                size="sm"
+              />
+            </div>
+          </>
         )}
 
-        {(selected || base) && (
+        {(focused || base) && (
           <div className="mt-6 border-t border-border pt-5">
             <h2 className="text-sm font-semibold">
               Check availability for{" "}
-              <span className="text-primary">@{selected || base.trim().toLowerCase()}</span>
+              <span className="text-primary">@{focused || base.trim().toLowerCase()}</span>
             </h2>
             <p className="mt-1 text-xs text-muted-foreground">
               Opens each profile URL in a new tab — a “not found” page means the handle is free.
@@ -151,7 +183,7 @@ function Page() {
               {PLATFORMS.map((p) => (
                 <a
                   key={p.name}
-                  href={p.url(selected || base.trim().toLowerCase())}
+                  href={p.url(focused || base.trim().toLowerCase())}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
                   className="rounded-full border border-border bg-background px-3 py-1.5 text-sm transition-colors hover:border-primary hover:bg-accent"
@@ -174,6 +206,7 @@ function Page() {
       <RelatedLinks
         slugs={["instagram-username-ideas", "tiktok-username-ideas", "roblox-username-ideas"]}
       />
+      <ExploreMore />
     </div>
   );
 }
