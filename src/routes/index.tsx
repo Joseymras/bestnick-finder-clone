@@ -9,6 +9,7 @@ import { SYMBOL_GROUPS } from "@/lib/fancy";
 import { NICHES, GUIDES, SITE } from "@/lib/content";
 import { LANDING_PAGES } from "@/lib/landing";
 import { ExploreMore } from "@/components/site/LinkHub";
+import { TrendingPanel, RecentPanel, TrendingStylesCard } from "@/components/site/LivePanels";
 
 const FAQS = [
   {
@@ -328,28 +329,31 @@ function Home() {
               </div>
             </section>
 
+            <section className="mt-12 grid gap-6 lg:grid-cols-2">
+              <TrendingPanel />
+              <RecentPanel />
+            </section>
+
             <ExploreMore />
           </div>
 
           <aside className="space-y-6">
             <AdSlot slot="3333333333" label="Sponsored" className="my-0" />
-            <div className="surface-card p-5">
-              <h2 className="font-display font-bold">Trending styles</h2>
-              <div className="mt-3 grid gap-2 text-sm">
-                {[
-                  "꧁༒ＫＩＮＧ༒꧂",
-                  "ᴀʟᴏɴᴇ ʙᴏʏ",
-                  "𝔡𝔞𝔯𝔨𝔪𝔬𝔡𝔢",
-                  "『ＳＮＩＰＥＲ』",
-                  "☬ＮＯＶＡ☬",
-                  "𝕭𝖑𝖆𝖟𝖊",
-                ].map((s) => (
-                  <div key={s} className="rounded-md bg-muted px-3 py-2 text-center">
-                    {s}
-                  </div>
-                ))}
-              </div>
-            </div>
+            <TrendingStylesCard
+              items={[
+                "꧁༒ＫＩＮＧ༒꧂",
+                "ᴀʟᴏɴᴇ ʙᴏʏ",
+                "𝔡𝔞𝔯𝔨𝔪𝔬𝔡𝔢",
+                "『ＳＮＩＰＥＲ』",
+                "☬ＮＯＶＡ☬",
+                "𝕭𝖑𝖆𝖟𝖊",
+                "✧･ﾟ ᴀᴜʀᴀ ･ﾟ✧",
+                "𓆩ＶＯＩＤ𓆪",
+                "⌁ᴘʜᴀɴᴛᴏᴍ⌁",
+                "⋆｡°✩ sɪʀᴇɴ ✩°｡⋆",
+              ]}
+            />
+
             <div className="surface-card p-5">
               <h2 className="font-display font-bold">Quick links</h2>
               <ul className="mt-3 space-y-2 text-sm">

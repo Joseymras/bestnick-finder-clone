@@ -39,7 +39,24 @@ export function track(action: ToolEvent, tool: string, params: Params = {}) {
   } catch {
     // Analytics must never break a tool.
   }
+  // Mirror into our own store so the admin dashboard can rank tools by usage.
+  void logEvent(action, tool);
 }
+
+let queued = 0;
+
+async function logEvent(action: string, tool: string) {
+  // Cap per page view so a fast clicker can't flood the table.
+  if (queued >= 40) return;
+  queued += 1;
+  try {
+    const { supabase } = await import("@/integrations/supabase/client");
+    await supabase.from("tool_events").insert({ action, tool });
+  } catch {
+    /* never surface analytics failures */
+  }
+}
+
 
 export function trackPageView(path: string, title?: string) {
   if (typeof window === "undefined") return;

@@ -9,6 +9,7 @@ const FOOTER_LEGAL = [
   { to: "/terms", label: "Terms of Use" },
   { to: "/disclaimer", label: "Disclaimer" },
   { to: "/cookie-policy", label: "Cookie Policy" },
+  { to: "/admin", label: "Site admin" },
 ];
 
 export function SiteHeader() {

@@ -62,6 +62,20 @@ const MAPS: Record<string, Record<string, string>> = {
   currency: fromString("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "₳฿₵Đ€₣₲Ⱨł♃₭Ⱡ₥₦Ø₱Q Ɽ₴₮ɄV₩ӾɎƵ"),
   cyrillic: fromString("ДБᄃDΣFGЊЇЈЖԼMИФPQЯSΓЦVЩЖЧZ", "аъcdефgнijкlмиорqяsтцvшxчz"),
   tiny: fromString("ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘQʀsᴛᴜᴠᴡxʏᴢ", "ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘQʀsᴛᴜᴠᴡxʏᴢ"),
+  sans: fromOffsets(0x1d5a0, 0x1d5ba, 0x1d7e2),
+  sansBoldItalic: fromOffsets(0x1d63c, 0x1d656),
+  parenthesized: fromString(
+    "🄐🄑🄒🄓🄔🄕🄖🄗🄘🄙🄚🄛🄜🄝🄞🄟🄠🄡🄢🄣🄤🄥🄦🄧🄨🄩",
+    "⒜⒝⒞⒟⒠⒡⒢⒣⒤⒥⒦⒧⒨⒩⒪⒫⒬⒭⒮⒯⒰⒱⒲⒳⒴⒵",
+  ),
+  negativeCircled: fromString(
+    "🅐🅑🅒🅓🅔🅕🅖🅗🅘🅙🅚🅛🅜🅝🅞🅟🅠🅡🅢🅣🅤🅥🅦🅧🅨🅩",
+    "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ",
+  ),
+  katakana: fromString("ﾑ乃匚刀乇下厶卄工丁长乚从𠘨口尸Q尺丂ㄒㄩ√山乂丫乙", "ﻝ乃ᄃ𝓭乇fム廾ﺎﻝズﻝጠ𝓷ㅇρ𝓺尺丂ㄒㄩᐯ山ﻯㄚ乂"),
+  runic: fromString("ᚨᛒᚦᛞᛖᚠᚷᚺᛁᛃᚴᛚᛗᚾᛟᛈᛩᚱᛊᛏᚢᚡᚳᚷᛇᛉ", "ᚨᛒᚦᛞᛖᚠᚷᚺᛁᛃᚴᛚᛗᚾᛟᛈᛩᚱᛊᛏᚢᚡᚳᚷᛇᛉ"),
+  cuteMix: fromString("ᗩᗷᑕᗪᗴᖴǤᕼᏆᒍᏦᒪᗰᑎOᑭQᖇᔕTᑌᐯᗯXYᘔ", "ᗩᗷᑕᗪᗴᖴǤᕼᏆᒍᏦᒪᗰᑎOᑭQᖇᔕTᑌᐯᗯXYᘔ"),
+  starry: fromString("ᐊᗺᑕᗞᗱᖴᏻᕼᛁᒎᛕᒐᗰᑎ⊙ᑭᛍᖇᏕᛏᑌᐯᗯ᙭ᖯᙇ", "ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖqʳˢᵗᵘᵛʷˣʸᶻ"),
 };
 
 function apply(map: Record<string, string>, text: string) {
@@ -108,7 +122,35 @@ export const FANCY_STYLES: FancyStyle[] = [
   { id: "dotted", name: "Dotted", transform: (t) => [...t].join("·") },
   { id: "arrowed", name: "Arrowed", transform: (t) => [...t].join("➶") },
   { id: "mirrored", name: "Mirrored", transform: (t) => [...t].reverse().join("") },
+  { id: "zalgo", name: "Zalgo Glitch", transform: (t) => zalgo(t, 3) },
+  { id: "zalgoHeavy", name: "Zalgo Heavy", transform: (t) => zalgo(t, 7) },
+  { id: "vaporwave", name: "Vaporwave", transform: (t) => spaced(apply(MAPS.fullwidth, t)) },
+  { id: "sparkleJoin", name: "Sparkle Join", transform: (t) => [...t].join("˚") },
+  { id: "heartJoin", name: "Heart Join", transform: (t) => [...t].join("♡") },
+  { id: "starJoin", name: "Star Join", transform: (t) => [...t].join("✧") },
+  { id: "altCaps", name: "AlTeRnAtInG", transform: (t) => [...t].map((c, i) => (i % 2 ? c.toLowerCase() : c.toUpperCase())).join("") },
 ];
+
+const ZALGO_MARKS = [
+  "\u0300", "\u0301", "\u0302", "\u0303", "\u0308", "\u030a", "\u030f", "\u0316", "\u0317",
+  "\u031c", "\u0323", "\u0325", "\u032d", "\u0331", "\u0335", "\u033f", "\u0350", "\u035b",
+];
+
+/** Deterministic glitch marks so SSR and the client render identical text. */
+function zalgo(text: string, intensity: number) {
+  let seed = 7;
+  return [...text]
+    .map((c) => {
+      if (c === " ") return c;
+      let out = c;
+      for (let i = 0; i < intensity; i++) {
+        seed = (seed * 1103515245 + 12345) % 2147483647;
+        out += ZALGO_MARKS[seed % ZALGO_MARKS.length];
+      }
+      return out;
+    })
+    .join("");
+}
 
 export const DECORATIONS: { id: string; name: string; wrap: (t: string) => string }[] = [
   { id: "wings", name: "Wings", wrap: (t) => `꧁${t}꧂` },
@@ -127,6 +169,22 @@ export const DECORATIONS: { id: string; name: string; wrap: (t: string) => strin
   { id: "skull", name: "Skull", wrap: (t) => `☠${t}☠` },
   { id: "petals", name: "Petals", wrap: (t) => `｡ﾟ${t}ﾟ｡` },
   { id: "glitch", name: "Glitch", wrap: (t) => `▄︻${t}══━一` },
+  { id: "butterfly", name: "Butterfly", wrap: (t) => `🦋${t}🦋` },
+  { id: "sparkles", name: "Sparkles", wrap: (t) => `✧･ﾟ${t}･ﾟ✧` },
+  { id: "moon", name: "Moon", wrap: (t) => `☾ ${t} ☽` },
+  { id: "cherry", name: "Cherry", wrap: (t) => `🍒${t}🍒` },
+  { id: "ghost", name: "Ghost", wrap: (t) => `👻${t}👻` },
+  { id: "dragon", name: "Dragon", wrap: (t) => `🐉${t}🐉` },
+  { id: "angelWings", name: "Angel Wings", wrap: (t) => `𓆩${t}𓆪` },
+  { id: "tribal", name: "Tribal", wrap: (t) => `꧅${t}꧅` },
+  { id: "cyber", name: "Cyber", wrap: (t) => `「${t}」` },
+  { id: "y2k", name: "Y2K", wrap: (t) => `⋆｡°✩ ${t} ✩°｡⋆` },
+  { id: "esports", name: "Esports", wrap: (t) => `⌁${t}⌁` },
+  { id: "flower", name: "Flower", wrap: (t) => `✿${t}✿` },
+  { id: "diamond", name: "Diamond", wrap: (t) => `❖ ${t} ❖` },
+  { id: "matrix", name: "Matrix", wrap: (t) => `⟦${t}⟧` },
+  { id: "aura", name: "Aura", wrap: (t) => `⋆˚࿔ ${t} ࿔˚⋆` },
+  { id: "royal", name: "Royal", wrap: (t) => `♔${t}♔` },
 ];
 
 export function stylize(input: string, limit = 60): { name: string; value: string }[] {
@@ -135,14 +193,16 @@ export function stylize(input: string, limit = 60): { name: string; value: strin
   for (const s of FANCY_STYLES) out.push({ name: s.name, value: s.transform(text) });
   for (const d of DECORATIONS) out.push({ name: d.name, value: d.wrap(text) });
   // Combined: decoration + font
-  const fonts = ["boldScript", "fraktur", "smallCaps", "doubleStruck", "sansBold"];
-  for (const d of DECORATIONS.slice(0, 8)) {
+  const fonts = ["boldScript", "fraktur", "smallCaps", "doubleStruck", "sansBold", "cuteMix", "katakana"];
+  for (const d of DECORATIONS) {
     for (const f of fonts) {
       out.push({ name: `${d.name} + ${f}`, value: d.wrap(apply(MAPS[f], text)) });
     }
   }
-  return out.slice(0, limit);
+  const seen = new Set<string>();
+  return out.filter((o) => (seen.has(o.value) ? false : (seen.add(o.value), true))).slice(0, limit);
 }
+
 
 export const SYMBOL_GROUPS: { name: string; slug: string; symbols: string[] }[] = [
   {
@@ -205,4 +265,65 @@ export const SYMBOL_GROUPS: { name: string; slug: string; symbols: string[] }[] 
     slug: "kaomoji",
     symbols: "(◕‿◕) (｡◕‿◕｡) ʕ•ᴥ•ʔ (≧◡≦) ¯\\_(ツ)_/¯ (◔_◔) (づ｡◕‿‿◕｡)づ ʘ‿ʘ (•_•) ᕙ(⇀‸↼)ᕗ".split(" "),
   },
+  {
+    name: "Trending emojis",
+    slug: "trending-emojis",
+    symbols: "🔥 💯 ✨ 🥶 🫶 🩷 🖤 🫧 🪩 🦋 🐉 👾 🎯 🧿 🪐 🛸 🫥 🤍 💫 🥷".split(" "),
+  },
+  {
+    name: "Sparkles & Y2K",
+    slug: "sparkles-y2k",
+    symbols: "⋆ ˚ ࿔ ✩ ✫ ⁺ ‧ ₊ ˖ ⭒ ⭑ ๋ ࣭ ˚｡ ⋆｡°✩ ✧･ﾟ ｡ﾟ ⊹ ࿐".split(" "),
+  },
+  {
+    name: "Aesthetic core",
+    slug: "aesthetic-core",
+    symbols: "𓆩 𓆪 ࿇ ᥫ᭡ ⌗ ⌇ ໒ ୨୧ ˚ෆ ꒰ ꒱ ᰔᩚ ⋒ ᨒ ๛ ᭄ ꫂ ᜊ".split(" "),
+  },
+  {
+    name: "Tech & AI",
+    slug: "tech-ai",
+    symbols: "⌘ ⌥ ⎋ ⏻ ⏼ ⌬ ⚙ ⌗ ⏣ ⌁ ⎔ ⏧ 🤖 💻 🛰 🧠 ⚡ ▨".split(" "),
+  },
+  {
+    name: "Blocks & Bars",
+    slug: "blocks",
+    symbols: "█ ▓ ▒ ░ ▌ ▐ ▁ ▂ ▃ ▄ ▅ ▆ ▇ ■ □ ▪ ▫ ◾".split(" "),
+  },
+  {
+    name: "Animals",
+    slug: "animals",
+    symbols: "🐺 🦊 🐯 🦁 🐍 🦅 🐬 🦈 🐝 🦂 🐙 🦖 🐈‍⬛ 🐾 ʕ•ᴥ•ʔ ᓚᘏᗢ".split(" "),
+  },
+  {
+    name: "Esports & Sports",
+    slug: "esports",
+    symbols: "🎮 🕹 🏆 🥇 🎯 ⚽ 🏀 🏎 🥊 ♟ ⚔ 🛡 ⌁ 🔫 💣 🧨".split(" "),
+  },
+  {
+    name: "Weather & Space",
+    slug: "space",
+    symbols: "☀ ☁ ☂ ☃ ❄ ❅ ❆ ☄ ✵ ✴ ☽ ☾ 🌙 🌌 🌠 🪐 ⭐ 🌞".split(" "),
+  },
+  {
+    name: "Food & Cute",
+    slug: "food",
+    symbols: "🍒 🍑 🍓 🍭 🍬 🧋 🍰 🧁 🍩 🥛 🍯 🌸 🎀 🩰 🫧 🍡".split(" "),
+  },
+  {
+    name: "Hands & Faces",
+    slug: "hands",
+    symbols: "✌ ☝ ✍ 👑 🫶 🤍 🖤 🩶 👀 🫡 🥶 🤌 ✊ 🤙 🫰 ✋".split(" "),
+  },
+  {
+    name: "Chess & Cards",
+    slug: "chess",
+    symbols: "♔ ♕ ♖ ♗ ♘ ♙ ♚ ♛ ♜ ♝ ♞ ♟ ♠ ♣ ♥ ♦".split(" "),
+  },
+  {
+    name: "Punctuation & Rare",
+    slug: "rare",
+    symbols: "‽ ⁂ ※ ⁑ ⸸ ⸙ ⸎ ❡ ‾ ⁓ ⁘ ⁙ ⌖ ⍟ ⍣ ⌾".split(" "),
+  },
 ];
+
