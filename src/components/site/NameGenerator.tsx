@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { RefreshCw } from "lucide-react";
 import { generateBatch, type NameFlavor } from "@/lib/names";
 import { track } from "@/lib/analytics";
+import { pushRecent } from "@/lib/live";
 import { useSelection } from "@/hooks/use-selection";
 import { SelectableResults, SelectionControls } from "./SelectableResults";
 import { ExportBar } from "./ExportBar";
@@ -58,8 +59,11 @@ export function NameGenerator({
           type="button"
           onClick={() => {
             clear();
-            roll();
+            const fresh = generateBatch(count, flavor, letters);
+            setNames(fresh);
             track("generate", tool, { flavor, count, seeded: letters ? "yes" : "no" });
+            // Share one pick with the public "recent nicknames" feed.
+            void pushRecent(fresh[0], tool);
           }}
           className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
         >
