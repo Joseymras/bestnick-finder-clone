@@ -9,6 +9,7 @@ import { SYMBOL_GROUPS } from "@/lib/fancy";
 import { NICHES, GUIDES, SITE } from "@/lib/content";
 import { LANDING_PAGES } from "@/lib/landing";
 import { ExploreMore } from "@/components/site/LinkHub";
+import { TrendingPanel, RecentPanel, TrendingStylesCard } from "@/components/site/LivePanels";
 
 const FAQS = [
   {
