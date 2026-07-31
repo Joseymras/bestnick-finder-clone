@@ -4,6 +4,9 @@ import { Flame, Clock } from "lucide-react";
 import { fetchRecent, fetchTrending, type RecentNickname, type TrendingName } from "@/lib/live";
 import { useCopy } from "@/hooks/use-copy";
 import { track } from "@/lib/analytics";
+import { useSelection } from "@/hooks/use-selection";
+import { SelectableResults, SelectionControls } from "./SelectableResults";
+import { ExportBar } from "./ExportBar";
 
 /** Popularity trends — the most upvoted names across the site. */
 export function TrendingPanel({ limit = 12 }: { limit?: number }) {
@@ -87,5 +90,43 @@ export function RecentPanel({ limit = 18 }: { limit?: number }) {
         ))}
       </ul>
     </section>
+  );
+}
+
+/** Trending stylised names — individually selectable and exportable. */
+export function TrendingStylesCard({ items }: { items: string[] }) {
+  const { selected, toggle, selectAll, clear, exportLines, count } = useSelection(items);
+
+  return (
+    <div className="surface-card p-5">
+      <h2 className="font-display font-bold">Trending styles</h2>
+      <p className="mt-1 text-xs text-muted-foreground">
+        Tap to copy, tick to export several at once.
+      </p>
+      <div className="mt-3">
+        <SelectableResults
+          items={items.map((v) => ({ value: v }))}
+          selected={selected}
+          onToggle={toggle}
+          tool="trending-styles"
+          size="sm"
+        />
+      </div>
+      <div className="mt-3 space-y-3">
+        <SelectionControls
+          total={items.length}
+          selectedCount={count}
+          onSelectAll={selectAll}
+          onClear={clear}
+          tool="trending-styles"
+        />
+        <ExportBar
+          lines={exportLines}
+          fileBase="trending-styles"
+          title="Trending name styles"
+          tool="trending-styles"
+        />
+      </div>
+    </div>
   );
 }
