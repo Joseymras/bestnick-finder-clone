@@ -426,7 +426,7 @@ function Page() {
 
       <FaqSection faqs={FAQS} />
       <RelatedGenerators
-        slugs={["gamer-tags", "aesthetic-usernames", "cool-usernames"]}
+        slugs={["aesthetic-usernames", "cool-usernames-for-boys", "valorant-name-ideas"]}
         description="Pair a secure password with a handle people remember."
       />
       <ExploreMore />
