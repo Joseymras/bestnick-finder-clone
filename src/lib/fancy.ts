@@ -273,7 +273,7 @@ export const SYMBOL_GROUPS: { name: string; slug: string; symbols: string[] }[] 
   {
     name: "Sparkles & Y2K",
     slug: "sparkles-y2k",
-    symbols: "⋆ ˚ ࿔ ✩ ✫ ⁺ ‧ ₊ ˖ ⭒ ⭑ ๋ ࣭ ⭑ ˚｡ ⋆｡°✩ ✧･ﾟ ｡ﾟ ⊹ ࿐".split(" "),
+    symbols: "⋆ ˚ ࿔ ✩ ✫ ⁺ ‧ ₊ ˖ ⭒ ⭑ ๋ ࣭ ˚｡ ⋆｡°✩ ✧･ﾟ ｡ﾟ ⊹ ࿐".split(" "),
   },
   {
     name: "Aesthetic core",
