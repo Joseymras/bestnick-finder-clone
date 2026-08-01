@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { SITE, TOOLS, NICHES } from "@/lib/content";
+import { useSeoOverrides } from "@/hooks/use-seo-overrides";
 
 const FOOTER_LEGAL = [
   { to: "/about", label: "About" },
@@ -150,6 +151,8 @@ export function SiteFooter() {
 }
 
 export function Layout({ children }: { children: ReactNode }) {
+  useSeoOverrides();
+
   return (
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
