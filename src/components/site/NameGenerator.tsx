@@ -12,6 +12,13 @@ const FLAVORS: { id: NameFlavor; label: string }[] = [
   { id: "gamer", label: "Gamer" },
   { id: "aesthetic", label: "Aesthetic" },
   { id: "fantasy", label: "Fantasy" },
+  { id: "dark", label: "Dark" },
+  { id: "cute", label: "Cute" },
+  { id: "funny", label: "Funny" },
+  { id: "clan", label: "Clan / team" },
+  { id: "anime", label: "Anime" },
+  { id: "oneword", label: "One word" },
+  { id: "short", label: "Short" },
   { id: "professional", label: "Professional" },
 ];
 
@@ -63,7 +70,7 @@ export function NameGenerator({
             setNames(fresh);
             track("generate", tool, { flavor, count, seeded: letters ? "yes" : "no" });
             // Share one pick with the public "recent nicknames" feed.
-            void pushRecent(fresh[0], tool);
+            void pushRecent(fresh[0] ?? "", tool);
           }}
           className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
         >
