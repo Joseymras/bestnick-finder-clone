@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import type { Json } from "@/integrations/supabase/types";
 
 export interface SeoOverride {
   path: string;
@@ -10,28 +11,30 @@ export interface SeoOverride {
   og_image: string | null;
   twitter_title: string | null;
   twitter_description: string | null;
-  jsonld: unknown;
+  jsonld: Json | null;
   noindex: boolean;
 }
 
 const FIELDS =
   "path,title,description,canonical,og_title,og_description,og_image,twitter_title,twitter_description,jsonld,noindex";
 
-let cache: Promise<Record<string, SeoOverride>> | null = null;
+type OverrideMap = Record<string, SeoOverride>;
+let cache: Promise<OverrideMap> | null = null;
 
 /** All published overrides, keyed by path. Cached per page load. */
-export function loadOverrides(force = false): Promise<Record<string, SeoOverride>> {
+export function loadOverrides(force = false): Promise<OverrideMap> {
   if (force) cache = null;
   if (!cache) {
-    cache = supabase
-      .from("seo_overrides")
-      .select(FIELDS)
-      .then(({ data }) => {
-        const out: Record<string, SeoOverride> = {};
+    cache = (async (): Promise<OverrideMap> => {
+      try {
+        const { data } = await supabase.from("seo_overrides").select(FIELDS);
+        const out: OverrideMap = {};
         for (const row of (data ?? []) as SeoOverride[]) out[normalisePath(row.path)] = row;
         return out;
-      })
-      .catch(() => ({}));
+      } catch {
+        return {};
+      }
+    })();
   }
   return cache;
 }
@@ -110,7 +113,12 @@ export function applyOverride(o: SeoOverride) {
 }
 
 export async function upsertOverride(row: Partial<SeoOverride> & { path: string }) {
-  const payload = { ...row, path: normalisePath(row.path), updated_at: new Date().toISOString() };
+  const payload = {
+    ...row,
+    jsonld: (row.jsonld ?? null) as Json,
+    path: normalisePath(row.path),
+    updated_at: new Date().toISOString(),
+  };
   const { error } = await supabase.from("seo_overrides").upsert(payload, { onConflict: "path" });
   cache = null;
   return error;
