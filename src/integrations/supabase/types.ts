@@ -238,6 +238,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      submit_trending: {
+        Args: { _category?: string; _name: string; _styled?: string }
+        Returns: string
+      }
       vote_nickname: {
         Args: { _direction: number; _nickname_id: string; _voter_key: string }
         Returns: {
