@@ -334,7 +334,7 @@ function AdminPage() {
         </div>
       </section>
 
-      <SeoManager onFlash={setFlash} />
+      <SeoManager onFlash={flash} />
 
       <section className="surface-card mt-6 p-5">
         <h2 className="font-display text-xl font-bold">Monetization &amp; site settings</h2>
