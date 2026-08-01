@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Loader2, Star, Trash2, LogOut, RefreshCw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { SeoManager } from "@/components/site/SeoManager";
 import { buildHead } from "@/lib/seo";
 import { fetchRecent, fetchTrending, type RecentNickname, type TrendingName } from "@/lib/live";
 
@@ -332,6 +333,8 @@ function AdminPage() {
           </table>
         </div>
       </section>
+
+      <SeoManager onFlash={setFlash} />
 
       <section className="surface-card mt-6 p-5">
         <h2 className="font-display text-xl font-bold">Monetization &amp; site settings</h2>
