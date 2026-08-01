@@ -101,7 +101,7 @@ export async function ensureTrending(name: string, category = "community", style
   if (!clean) return null;
   const { data, error } = await supabase.rpc("submit_trending", {
     _name: clean,
-    _styled: styled ?? null,
+    _styled: styled ?? undefined,
     _category: category,
   });
   if (error) return null;

@@ -19,7 +19,8 @@ export type ToolEvent =
   | "download_svg"
   | "share"
   | "select_all"
-  | "search";
+  | "search"
+  | "vote";
 
 /**
  * Track a tool interaction in GA4.
