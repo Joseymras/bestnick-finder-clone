@@ -95,20 +95,15 @@ export async function fetchMyVotes(): Promise<Record<string, VoteDirection>> {
   return out;
 }
 
-/** Ensures a name exists in trending_names so it can be voted on, returns its id. */
+/** Ensures a name exists in the votable trends list, returning its id. */
 export async function ensureTrending(name: string, category = "community", styled?: string) {
   const clean = name.trim().slice(0, 60);
   if (!clean) return null;
-  const { data: found } = await supabase
-    .from("trending_names")
-    .select("id")
-    .eq("name", clean)
-    .maybeSingle();
-  if (found) return found.id as string;
-  const { data } = await supabase
-    .from("trending_names")
-    .insert({ name: clean, category, styled: styled ?? null })
-    .select("id")
-    .maybeSingle();
-  return (data?.id as string | undefined) ?? null;
+  const { data, error } = await supabase.rpc("submit_trending", {
+    _name: clean,
+    _styled: styled ?? null,
+    _category: category,
+  });
+  if (error) return null;
+  return (data as string | null) ?? null;
 }
