@@ -48,3 +48,67 @@ export async function fetchSettings(): Promise<Record<string, Record<string, unk
   for (const row of data ?? []) out[row.key as string] = (row.value ?? {}) as Record<string, unknown>;
   return out;
 }
+
+/* ------------------------------------------------------------------ *
+ * Voting
+ * ------------------------------------------------------------------ */
+
+const VOTER_KEY_STORAGE = "bnf_voter_key";
+
+/** Stable anonymous voter key kept in localStorage (never a real identity). */
+export function getVoterKey(): string {
+  if (typeof window === "undefined") return "";
+  let key = window.localStorage.getItem(VOTER_KEY_STORAGE);
+  if (!key) {
+    key = crypto.randomUUID().replace(/-/g, "").slice(0, 32);
+    window.localStorage.setItem(VOTER_KEY_STORAGE, key);
+  }
+  return key;
+}
+
+export type VoteDirection = 1 | -1;
+
+/** Casts (or toggles) a vote. Returns the fresh tallies from the database. */
+export async function voteNickname(nicknameId: string, direction: VoteDirection) {
+  const voterKey = getVoterKey();
+  if (!voterKey) return null;
+  const { data, error } = await supabase.rpc("vote_nickname", {
+    _nickname_id: nicknameId,
+    _direction: direction,
+    _voter_key: voterKey,
+  });
+  if (error) return null;
+  const row = Array.isArray(data) ? data[0] : data;
+  return (row as { votes_up: number; votes_down: number } | undefined) ?? null;
+}
+
+/** The current visitor's existing votes, keyed by nickname id. */
+export async function fetchMyVotes(): Promise<Record<string, VoteDirection>> {
+  const voterKey = getVoterKey();
+  if (!voterKey) return {};
+  const { data } = await supabase
+    .from("nickname_votes")
+    .select("nickname_id,direction")
+    .eq("voter_key", voterKey);
+  const out: Record<string, VoteDirection> = {};
+  for (const row of data ?? []) out[row.nickname_id as string] = row.direction as VoteDirection;
+  return out;
+}
+
+/** Ensures a name exists in trending_names so it can be voted on, returns its id. */
+export async function ensureTrending(name: string, category = "community", styled?: string) {
+  const clean = name.trim().slice(0, 60);
+  if (!clean) return null;
+  const { data: found } = await supabase
+    .from("trending_names")
+    .select("id")
+    .eq("name", clean)
+    .maybeSingle();
+  if (found) return found.id as string;
+  const { data } = await supabase
+    .from("trending_names")
+    .insert({ name: clean, category, styled: styled ?? null })
+    .select("id")
+    .maybeSingle();
+  return (data?.id as string | undefined) ?? null;
+}
