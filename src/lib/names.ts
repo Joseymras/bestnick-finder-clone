@@ -30,29 +30,120 @@ function pick<T>(arr: T[]) {
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-export type NameFlavor = "gamer" | "aesthetic" | "fantasy" | "professional" | "random";
+export const DARK_ADJECTIVES = [
+  "Grim", "Hollow", "Fallen", "Cursed", "Bleak", "Silent", "Vile", "Ashen", "Dread", "Umbral",
+  "Sable", "Nether", "Void", "Ruin", "Morbid", "Wraith", "Obsidian", "Thorn", "Blood", "Nocturne",
+];
+
+export const DARK_NOUNS = [
+  "Requiem", "Grave", "Hex", "Crypt", "Fang", "Omen", "Sorrow", "Abyss", "Reign", "Scythe",
+  "Widow", "Sever", "Malice", "Eclipse", "Wither", "Shroud", "Thrall", "Bane", "Rift", "Dirge",
+];
+
+export const KAWAII_WORDS = [
+  "mochi", "boba", "puff", "nana", "yumi", "miku", "pudding", "sakura", "kuma", "usagi",
+  "milky", "candy", "pochi", "hoshi", "neko", "mimi", "peachy", "toffee", "buni", "cutie",
+];
+
+export const FUNNY_WORDS = [
+  "Noodle", "Waffle", "Pickle", "Potato", "Wombat", "Muffin", "Gravy", "Sock", "Banana", "Sloth",
+  "Toast", "Nugget", "Yeet", "Bonk", "Snack", "Goblin", "Chonk", "Turnip", "Burrito", "Wiggle",
+];
+
+export const MYTHIC_WORDS = [
+  "Aether", "Valen", "Thoron", "Elyra", "Draven", "Seraph", "Kaelis", "Morrigan", "Auren", "Ravok",
+  "Ilyra", "Zephyr", "Orios", "Nyxara", "Vaeloth", "Sylvane", "Threnos", "Kaldros", "Ember", "Solari",
+];
+
+export const CLAN_WORDS = [
+  "Legion", "Syndicate", "Dynasty", "Order", "Squad", "Empire", "Union", "Cartel", "Coalition", "Guild",
+  "Regiment", "Vanguard", "Collective", "Brigade", "Circle", "Pact", "Alliance", "Crew", "Faction", "Clan",
+];
+
+export const ANIME_WORDS = [
+  "Kenji", "Ryu", "Akira", "Hikari", "Sora", "Rin", "Yuki", "Kaito", "Hana", "Shin",
+  "Zoro", "Kira", "Ayame", "Tsuki", "Reiji", "Nami", "Haru", "Kuro", "Shiro", "Aoi",
+];
+
+export const PRO_WORDS = [
+  "studio", "labs", "works", "media", "digital", "consult", "creative", "collective", "group", "co",
+];
+
+export const DECOR_PREFIX = ["彡", "★", "×", "꧁", "「", "✧", "亗", "ᴶ", "☂", "-ˋˏ"];
+export const DECOR_SUFFIX = ["彡", "★", "×", "꧂", "」", "✧", "亗", "ツ", "☂", "ˎˊ-"];
+
+export type NameFlavor =
+  | "gamer"
+  | "aesthetic"
+  | "fantasy"
+  | "professional"
+  | "dark"
+  | "cute"
+  | "funny"
+  | "clan"
+  | "anime"
+  | "oneword"
+  | "short"
+  | "random";
+
+const ALL_FLAVORS: NameFlavor[] = [
+  "gamer", "aesthetic", "fantasy", "professional", "dark", "cute", "funny", "clan", "anime",
+  "oneword", "short",
+];
+
+const maybe = (p: number) => Math.random() < p;
+const num = () => String(Math.floor(Math.random() * 90) + 10);
 
 export function generateName(flavor: NameFlavor = "random", firstLetters = ""): string {
-  const f = flavor === "random" ? pick<NameFlavor>(["gamer", "aesthetic", "fantasy", "professional"]) : flavor;
+  const f = flavor === "random" ? pick(ALL_FLAVORS) : flavor;
   let name = "";
   switch (f) {
     case "gamer":
-      name = `${pick(ADJECTIVES)}${pick(NOUNS)}${Math.random() > 0.6 ? Math.floor(Math.random() * 99) : ""}`;
+      name = `${pick(ADJECTIVES)}${pick(NOUNS)}${maybe(0.4) ? num() : ""}`;
       break;
     case "aesthetic":
-      name = `${pick(SOFT_NOUNS).toLowerCase()}${Math.random() > 0.5 ? "." : "_"}${pick(SOFT_NOUNS).toLowerCase()}`;
+      name = `${pick(SOFT_NOUNS).toLowerCase()}${maybe(0.5) ? "." : "_"}${pick(SOFT_NOUNS).toLowerCase()}`;
       break;
     case "fantasy":
-      name = cap(pick(SYLLABLES_A) + pick(SYLLABLES_B) + (Math.random() > 0.6 ? pick(SYLLABLES_B) : ""));
+      name = cap(pick(SYLLABLES_A) + pick(SYLLABLES_B) + (maybe(0.4) ? pick(SYLLABLES_B) : ""));
+      break;
+    case "dark":
+      name = `${pick(DARK_ADJECTIVES)}${pick(DARK_NOUNS)}`;
+      break;
+    case "cute":
+      name = `${pick(KAWAII_WORDS)}${maybe(0.5) ? "." : ""}${pick(KAWAII_WORDS)}`;
+      break;
+    case "funny":
+      name = `${pick(FUNNY_WORDS)}${pick(FUNNY_WORDS)}${maybe(0.3) ? num() : ""}`;
+      break;
+    case "clan":
+      name = `${pick(DARK_ADJECTIVES)} ${pick(CLAN_WORDS)}`;
+      break;
+    case "anime":
+      name = `${pick(ANIME_WORDS)}${maybe(0.5) ? pick(SYLLABLES_B) : ""}`;
+      name = cap(name);
+      break;
+    case "oneword":
+      name = cap(pick(MYTHIC_WORDS));
+      break;
+    case "short":
+      name = (pick(SYLLABLES_A) + pick(SYLLABLES_B)).slice(0, 5);
+      name = cap(name);
       break;
     default:
-      name = `${pick(ADJECTIVES).toLowerCase()}.${pick(NOUNS).toLowerCase()}`;
+      name = `${pick(ADJECTIVES).toLowerCase()}.${pick(PRO_WORDS)}`;
   }
   if (firstLetters) {
     const p = firstLetters.trim();
     name = p + name.slice(0, Math.max(3, name.length - p.length));
   }
   return name;
+}
+
+/** Wraps a name in decorative symbols the way gaming handles usually look. */
+export function decorate(name: string) {
+  const i = Math.floor(Math.random() * DECOR_PREFIX.length);
+  return `${DECOR_PREFIX[i]}${name}${DECOR_SUFFIX[i]}`;
 }
 
 export function generateBatch(count: number, flavor: NameFlavor = "random", firstLetters = "") {
