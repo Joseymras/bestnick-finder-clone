@@ -28,6 +28,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as IdeasIndexRouteImport } from './routes/ideas.index'
 import { Route as GuidesIndexRouteImport } from './routes/guides.index'
+import { Route as NicknamesLangRouteImport } from './routes/nicknames.$lang'
 import { Route as IdeasSlugRouteImport } from './routes/ideas.$slug'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as GeneratorSlugRouteImport } from './routes/generator.$slug'
@@ -127,6 +128,11 @@ const GuidesIndexRoute = GuidesIndexRouteImport.update({
   path: '/guides/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NicknamesLangRoute = NicknamesLangRouteImport.update({
+  id: '/nicknames/$lang',
+  path: '/nicknames/$lang',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IdeasSlugRoute = IdeasSlugRouteImport.update({
   id: '/ideas/$slug',
   path: '/ideas/$slug',
@@ -164,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/generator/$slug': typeof GeneratorSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/ideas/$slug': typeof IdeasSlugRoute
+  '/nicknames/$lang': typeof NicknamesLangRoute
   '/guides/': typeof GuidesIndexRoute
   '/ideas/': typeof IdeasIndexRoute
 }
@@ -188,6 +195,7 @@ export interface FileRoutesByTo {
   '/generator/$slug': typeof GeneratorSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/ideas/$slug': typeof IdeasSlugRoute
+  '/nicknames/$lang': typeof NicknamesLangRoute
   '/guides': typeof GuidesIndexRoute
   '/ideas': typeof IdeasIndexRoute
 }
@@ -213,6 +221,7 @@ export interface FileRoutesById {
   '/generator/$slug': typeof GeneratorSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/ideas/$slug': typeof IdeasSlugRoute
+  '/nicknames/$lang': typeof NicknamesLangRoute
   '/guides/': typeof GuidesIndexRoute
   '/ideas/': typeof IdeasIndexRoute
 }
@@ -239,6 +248,7 @@ export interface FileRouteTypes {
     | '/generator/$slug'
     | '/guides/$slug'
     | '/ideas/$slug'
+    | '/nicknames/$lang'
     | '/guides/'
     | '/ideas/'
   fileRoutesByTo: FileRoutesByTo
@@ -263,6 +273,7 @@ export interface FileRouteTypes {
     | '/generator/$slug'
     | '/guides/$slug'
     | '/ideas/$slug'
+    | '/nicknames/$lang'
     | '/guides'
     | '/ideas'
   id:
@@ -287,6 +298,7 @@ export interface FileRouteTypes {
     | '/generator/$slug'
     | '/guides/$slug'
     | '/ideas/$slug'
+    | '/nicknames/$lang'
     | '/guides/'
     | '/ideas/'
   fileRoutesById: FileRoutesById
@@ -312,6 +324,7 @@ export interface RootRouteChildren {
   GeneratorSlugRoute: typeof GeneratorSlugRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
   IdeasSlugRoute: typeof IdeasSlugRoute
+  NicknamesLangRoute: typeof NicknamesLangRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
   IdeasIndexRoute: typeof IdeasIndexRoute
 }
@@ -451,6 +464,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuidesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/nicknames/$lang': {
+      id: '/nicknames/$lang'
+      path: '/nicknames/$lang'
+      fullPath: '/nicknames/$lang'
+      preLoaderRoute: typeof NicknamesLangRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ideas/$slug': {
       id: '/ideas/$slug'
       path: '/ideas/$slug'
@@ -496,6 +516,7 @@ const rootRouteChildren: RootRouteChildren = {
   GeneratorSlugRoute: GeneratorSlugRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   IdeasSlugRoute: IdeasSlugRoute,
+  NicknamesLangRoute: NicknamesLangRoute,
   GuidesIndexRoute: GuidesIndexRoute,
   IdeasIndexRoute: IdeasIndexRoute,
 }

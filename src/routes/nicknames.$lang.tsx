@@ -7,7 +7,7 @@ import { FaqSection, faqJsonLd } from "@/components/site/Faq";
 import { AdSlot } from "@/components/site/AdSlot";
 import { TrendingPanel } from "@/components/site/LivePanels";
 import { ExploreMore } from "@/components/site/LinkHub";
-import { LOCALES, LOCALE_MAP } from "@/lib/i18n";
+import { LOCALES, LOCALE_MAP, type Locale } from "@/lib/i18n";
 import { SITE } from "@/lib/content";
 
 export const Route = createFileRoute("/nicknames/$lang")({
@@ -92,7 +92,7 @@ function LocalePage() {
       </section>
 
       <div className="mt-10 space-y-8">
-        {locale.sections.map((s) => (
+        {locale.sections.map((s: Locale["sections"][number]) => (
           <section key={s.h2}>
             <h2 className="font-display text-2xl font-bold">{s.h2}</h2>
             <p className="mt-2 leading-relaxed text-muted-foreground">{s.body}</p>
