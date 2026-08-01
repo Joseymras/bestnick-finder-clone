@@ -14,6 +14,38 @@ export type Database = {
   }
   public: {
     Tables: {
+      nickname_votes: {
+        Row: {
+          created_at: string
+          direction: number
+          id: string
+          nickname_id: string
+          voter_key: string
+        }
+        Insert: {
+          created_at?: string
+          direction: number
+          id?: string
+          nickname_id: string
+          voter_key: string
+        }
+        Update: {
+          created_at?: string
+          direction?: number
+          id?: string
+          nickname_id?: string
+          voter_key?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nickname_votes_nickname_id_fkey"
+            columns: ["nickname_id"]
+            isOneToOne: false
+            referencedRelation: "trending_names"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -53,6 +85,51 @@ export type Database = {
           id?: string
           name?: string
           tool?: string
+        }
+        Relationships: []
+      }
+      seo_overrides: {
+        Row: {
+          canonical: string | null
+          description: string | null
+          jsonld: Json | null
+          noindex: boolean
+          og_description: string | null
+          og_image: string | null
+          og_title: string | null
+          path: string
+          title: string | null
+          twitter_description: string | null
+          twitter_title: string | null
+          updated_at: string
+        }
+        Insert: {
+          canonical?: string | null
+          description?: string | null
+          jsonld?: Json | null
+          noindex?: boolean
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
+          path: string
+          title?: string | null
+          twitter_description?: string | null
+          twitter_title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          canonical?: string | null
+          description?: string | null
+          jsonld?: Json | null
+          noindex?: boolean
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
+          path?: string
+          title?: string | null
+          twitter_description?: string | null
+          twitter_title?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -160,6 +237,13 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      vote_nickname: {
+        Args: { _direction: number; _nickname_id: string; _voter_key: string }
+        Returns: {
+          votes_down: number
+          votes_up: number
+        }[]
       }
     }
     Enums: {
