@@ -26,6 +26,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as NicknamesIndexRouteImport } from './routes/nicknames.index'
 import { Route as IdeasIndexRouteImport } from './routes/ideas.index'
 import { Route as GuidesIndexRouteImport } from './routes/guides.index'
 import { Route as NicknamesLangRouteImport } from './routes/nicknames.$lang'
@@ -118,6 +119,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NicknamesIndexRoute = NicknamesIndexRouteImport.update({
+  id: '/nicknames/',
+  path: '/nicknames/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IdeasIndexRoute = IdeasIndexRouteImport.update({
   id: '/ideas/',
   path: '/ideas/',
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/nicknames/$lang': typeof NicknamesLangRoute
   '/guides/': typeof GuidesIndexRoute
   '/ideas/': typeof IdeasIndexRoute
+  '/nicknames/': typeof NicknamesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -198,6 +205,7 @@ export interface FileRoutesByTo {
   '/nicknames/$lang': typeof NicknamesLangRoute
   '/guides': typeof GuidesIndexRoute
   '/ideas': typeof IdeasIndexRoute
+  '/nicknames': typeof NicknamesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -224,6 +232,7 @@ export interface FileRoutesById {
   '/nicknames/$lang': typeof NicknamesLangRoute
   '/guides/': typeof GuidesIndexRoute
   '/ideas/': typeof IdeasIndexRoute
+  '/nicknames/': typeof NicknamesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -251,6 +260,7 @@ export interface FileRouteTypes {
     | '/nicknames/$lang'
     | '/guides/'
     | '/ideas/'
+    | '/nicknames/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/nicknames/$lang'
     | '/guides'
     | '/ideas'
+    | '/nicknames'
   id:
     | '__root__'
     | '/'
@@ -301,6 +312,7 @@ export interface FileRouteTypes {
     | '/nicknames/$lang'
     | '/guides/'
     | '/ideas/'
+    | '/nicknames/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -327,6 +339,7 @@ export interface RootRouteChildren {
   NicknamesLangRoute: typeof NicknamesLangRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
   IdeasIndexRoute: typeof IdeasIndexRoute
+  NicknamesIndexRoute: typeof NicknamesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -450,6 +463,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/nicknames/': {
+      id: '/nicknames/'
+      path: '/nicknames'
+      fullPath: '/nicknames/'
+      preLoaderRoute: typeof NicknamesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ideas/': {
       id: '/ideas/'
       path: '/ideas'
@@ -519,6 +539,7 @@ const rootRouteChildren: RootRouteChildren = {
   NicknamesLangRoute: NicknamesLangRoute,
   GuidesIndexRoute: GuidesIndexRoute,
   IdeasIndexRoute: IdeasIndexRoute,
+  NicknamesIndexRoute: NicknamesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

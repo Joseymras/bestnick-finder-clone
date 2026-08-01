@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { NICHES, GUIDES, TOOLS } from "@/lib/content";
 import { LANDING_PAGES } from "@/lib/landing";
+import { LOCALES } from "@/lib/i18n";
 
 const BASE_URL = "https://bestnickfinder.online";
 
@@ -30,6 +31,12 @@ export const Route = createFileRoute("/sitemap.xml")({
             priority: "0.8",
           })),
           { path: "/ideas", changefreq: "weekly" as const, priority: "0.9" },
+          { path: "/nicknames", changefreq: "weekly" as const, priority: "0.8" },
+          ...LOCALES.map((l) => ({
+            path: `/nicknames/${l.code}`,
+            changefreq: "weekly" as const,
+            priority: "0.7",
+          })),
           ...LANDING_PAGES.map((l) => ({
             path: `/ideas/${l.slug}`,
             changefreq: "weekly" as const,

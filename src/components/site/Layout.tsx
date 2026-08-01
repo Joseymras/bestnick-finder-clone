@@ -4,6 +4,7 @@ import { SITE, TOOLS, NICHES } from "@/lib/content";
 import { useSeoOverrides } from "@/hooks/use-seo-overrides";
 
 const FOOTER_LEGAL = [
+  { to: "/nicknames", label: "Languages" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
   { to: "/privacy-policy", label: "Privacy Policy" },
@@ -41,6 +42,12 @@ export function SiteHeader() {
             className="rounded-md px-3 py-1.5 text-ink-muted transition-colors hover:bg-white/10 hover:text-ink-foreground"
           >
             Name ideas
+          </Link>
+          <Link
+            to="/nicknames"
+            className="rounded-md px-3 py-1.5 text-ink-muted transition-colors hover:bg-white/10 hover:text-ink-foreground"
+          >
+            Languages
           </Link>
           <Link
             to="/tools"
