@@ -1,10 +1,43 @@
+import { useState } from "react";
 import { Check } from "lucide-react";
 import { useCopy } from "@/hooks/use-copy";
 import { track } from "@/lib/analytics";
+import { ensureTrending } from "@/lib/live";
+import { useUiLang } from "@/lib/ui-lang";
+import { VoteButtons } from "./VoteButtons";
 
 export interface ResultItem {
   value: string;
   label?: string;
+}
+
+/**
+ * Up/down voting for a freshly generated name. The name is only promoted into
+ * the shared trends table once a visitor decides to vote on it.
+ */
+function ResultVote({ value, tool }: { value: string; tool: string }) {
+  const { t } = useUiLang();
+  const [id, setId] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  if (id) return <VoteButtons nicknameId={id} up={0} down={0} tool={tool} size="sm" />;
+
+  return (
+    <button
+      type="button"
+      disabled={busy}
+      onClick={async () => {
+        setBusy(true);
+        const next = await ensureTrending(value, tool);
+        setBusy(false);
+        if (next) setId(next);
+      }}
+      aria-label={`${t.vote}: ${value}`}
+      className="shrink-0 rounded-md border border-border px-2 py-1 text-[11px] font-semibold text-muted-foreground transition-colors hover:border-primary hover:text-primary disabled:opacity-50"
+    >
+      {t.vote}
+    </button>
+  );
 }
 
 /**
@@ -17,14 +50,17 @@ export function SelectableResults({
   onToggle,
   tool,
   size = "md",
+  votable = false,
 }: {
   items: ResultItem[];
   selected: Set<string>;
   onToggle: (value: string) => void;
   tool: string;
   size?: "sm" | "md";
+  votable?: boolean;
 }) {
   const { copy, copied } = useCopy();
+  const { t } = useUiLang();
   const text = size === "sm" ? "text-sm" : "text-base";
 
   if (!items.length) return null;
@@ -68,19 +104,23 @@ export function SelectableResults({
                 <span className={`block truncate font-medium ${text}`}>{item.value}</span>
               </button>
 
-              <span
-                className={`shrink-0 rounded-md px-2 py-1 text-xs font-semibold ${
-                  isCopied ? "bg-primary text-primary-foreground" : "text-muted-foreground"
-                }`}
-              >
-                {isCopied ? (
-                  <span className="flex items-center gap-1">
-                    <Check className="h-3 w-3" /> Copied
-                  </span>
-                ) : (
-                  "Copy"
-                )}
-              </span>
+              {votable ? (
+                <ResultVote value={item.value} tool={tool} />
+              ) : (
+                <span
+                  className={`shrink-0 rounded-md px-2 py-1 text-xs font-semibold ${
+                    isCopied ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+                  }`}
+                >
+                  {isCopied ? (
+                    <span className="flex items-center gap-1">
+                      <Check className="h-3 w-3" /> {t.copied}
+                    </span>
+                  ) : (
+                    t.copy
+                  )}
+                </span>
+              )}
             </div>
           </li>
         );
@@ -103,10 +143,14 @@ export function SelectionControls({
   onClear: () => void;
   tool: string;
 }) {
+  const { t } = useUiLang();
+
   return (
     <div className="flex items-center gap-3 text-sm">
       <span className="text-muted-foreground">
-        {selectedCount > 0 ? `${selectedCount} of ${total} selected` : `${total} results`}
+        {selectedCount > 0
+          ? `${selectedCount} / ${total} ${t.selected}`
+          : `${total} ${t.results}`}
       </span>
       <button
         type="button"
@@ -116,11 +160,11 @@ export function SelectionControls({
         }}
         className="font-semibold text-primary hover:underline"
       >
-        Select all
+        {t.selectAll}
       </button>
       {selectedCount > 0 && (
         <button type="button" onClick={onClear} className="text-muted-foreground hover:underline">
-          Clear
+          {t.clear}
         </button>
       )}
     </div>

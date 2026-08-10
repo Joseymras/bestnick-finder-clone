@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { SITE, TOOLS, NICHES } from "@/lib/content";
 import { useSeoOverrides } from "@/hooks/use-seo-overrides";
+import { UiLangProvider, useUiLang } from "@/lib/ui-lang";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 const FOOTER_LEGAL = [
   { to: "/nicknames", label: "Languages" },
@@ -15,6 +17,7 @@ const FOOTER_LEGAL = [
 ];
 
 export function SiteHeader() {
+  const { t } = useUiLang();
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-ink text-ink-foreground">
       <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
@@ -41,27 +44,28 @@ export function SiteHeader() {
             to="/ideas"
             className="rounded-md px-3 py-1.5 text-ink-muted transition-colors hover:bg-white/10 hover:text-ink-foreground"
           >
-            Name ideas
+            {t.nameIdeas}
           </Link>
           <Link
             to="/nicknames"
             className="rounded-md px-3 py-1.5 text-ink-muted transition-colors hover:bg-white/10 hover:text-ink-foreground"
           >
-            Languages
+            {t.languages}
           </Link>
           <Link
             to="/tools"
             className="rounded-md bg-primary px-3 py-1.5 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
           >
-            All tools
+            {t.allTools}
           </Link>
+          <LanguageSwitcher compact />
         </nav>
 
         <Link
           to="/tools"
           className="ml-auto rounded-md bg-primary px-3 py-1.5 text-sm font-semibold text-primary-foreground md:hidden"
         >
-          Tools
+          {t.tools}
         </Link>
       </div>
       <div className="border-t border-white/10 bg-ink/60">
@@ -83,6 +87,7 @@ export function SiteHeader() {
 }
 
 export function SiteFooter() {
+  const { t } = useUiLang();
   return (
     <footer className="mt-16 border-t border-border bg-ink text-ink-foreground">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
@@ -96,7 +101,7 @@ export function SiteFooter() {
           </p>
         </div>
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide">Tools</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-wide">{t.tools}</h2>
           <ul className="mt-3 space-y-2 text-sm text-ink-muted">
             {TOOLS.map((t) => (
               <li key={t.slug}>
@@ -108,7 +113,7 @@ export function SiteFooter() {
           </ul>
         </div>
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide">Popular generators</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-wide">{t.popularGenerators}</h2>
           <ul className="mt-3 space-y-2 text-sm text-ink-muted">
             {NICHES.slice(0, 8).map((n) => (
               <li key={n.slug}>
@@ -124,16 +129,16 @@ export function SiteFooter() {
           </ul>
         </div>
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide">Site</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-wide">{t.site}</h2>
           <ul className="mt-3 space-y-2 text-sm text-ink-muted">
             <li>
               <Link to="/guides" className="transition-colors hover:text-ink-foreground">
-                Guides
+                {t.guides}
               </Link>
             </li>
             <li>
               <Link to="/ideas" className="transition-colors hover:text-ink-foreground">
-                Name ideas
+                {t.nameIdeas}
               </Link>
             </li>
             {FOOTER_LEGAL.map((l) => (
@@ -147,10 +152,13 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-white/10">
-        <div className="mx-auto max-w-7xl px-4 py-5 text-xs text-ink-muted">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-4 px-4 py-5 text-xs text-ink-muted">
+          <LanguageSwitcher compact />
+          <span>
           © {new Date().getFullYear()} {SITE.domain}. Generated names are provided as-is for personal
           and commercial use. Game and platform names are trademarks of their respective owners and
           this site is not affiliated with any of them.
+          </span>
         </div>
       </div>
     </footer>
@@ -161,21 +169,24 @@ export function Layout({ children }: { children: ReactNode }) {
   useSeoOverrides();
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <SiteHeader />
-      <main className="flex-1">{children}</main>
-      <SiteFooter />
-    </div>
+    <UiLangProvider>
+      <div className="flex min-h-screen flex-col">
+        <SiteHeader />
+        <main className="flex-1">{children}</main>
+        <SiteFooter />
+      </div>
+    </UiLangProvider>
   );
 }
 
 export function Breadcrumbs({ items }: { items: { label: string; to?: string }[] }) {
+  const { t: { home } } = useUiLang();
   return (
     <nav aria-label="Breadcrumb" className="mb-4 text-xs text-muted-foreground">
       <ol className="flex flex-wrap items-center gap-1.5">
         <li>
           <Link to="/" className="hover:text-primary">
-            Home
+            {home}
           </Link>
         </li>
         {items.map((i) => (

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { voteNickname, type VoteDirection } from "@/lib/live";
 import { track } from "@/lib/analytics";
+import { useUiLang } from "@/lib/ui-lang";
 
 /**
  * Up/down vote control for a nickname. One vote per browser per name; clicking
@@ -22,6 +23,7 @@ export function VoteButtons({
   tool?: string;
   size?: "sm" | "md";
 }) {
+  const { t } = useUiLang();
   const [tally, setTally] = useState({ up, down });
   const [mine, setMine] = useState<VoteDirection | undefined>(myVote);
   const [busy, setBusy] = useState(false);
@@ -48,7 +50,7 @@ export function VoteButtons({
       <button
         type="button"
         onClick={() => void cast(1)}
-        aria-label="Upvote this nickname"
+        aria-label={t.upvote}
         aria-pressed={mine === 1}
         className={`inline-flex items-center gap-1 rounded-md border font-semibold transition-colors ${pad} ${
           mine === 1
@@ -61,7 +63,7 @@ export function VoteButtons({
       <button
         type="button"
         onClick={() => void cast(-1)}
-        aria-label="Downvote this nickname"
+        aria-label={t.downvote}
         aria-pressed={mine === -1}
         className={`inline-flex items-center gap-1 rounded-md border font-semibold transition-colors ${pad} ${
           mine === -1
