@@ -6,6 +6,7 @@ import { UiLangProvider, useUiLang } from "@/lib/ui-lang";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 const FOOTER_LEGAL = [
+  { to: "/best-nicknames", label: "Countries" },
   { to: "/nicknames", label: "Languages" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },

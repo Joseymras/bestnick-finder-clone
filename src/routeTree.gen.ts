@@ -29,10 +29,13 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as NicknamesIndexRouteImport } from './routes/nicknames.index'
 import { Route as IdeasIndexRouteImport } from './routes/ideas.index'
 import { Route as GuidesIndexRouteImport } from './routes/guides.index'
+import { Route as BestNicknamesIndexRouteImport } from './routes/best-nicknames.index'
 import { Route as NicknamesLangRouteImport } from './routes/nicknames.$lang'
 import { Route as IdeasSlugRouteImport } from './routes/ideas.$slug'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as GeneratorSlugRouteImport } from './routes/generator.$slug'
+import { Route as BestNicknamesSlugRouteImport } from './routes/best-nicknames.$slug'
+import { Route as BestNicknamesCountryCountryRouteImport } from './routes/best-nicknames.country.$country'
 
 const UsernameGeneratorRoute = UsernameGeneratorRouteImport.update({
   id: '/username-generator',
@@ -134,6 +137,11 @@ const GuidesIndexRoute = GuidesIndexRouteImport.update({
   path: '/guides/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BestNicknamesIndexRoute = BestNicknamesIndexRouteImport.update({
+  id: '/best-nicknames/',
+  path: '/best-nicknames/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NicknamesLangRoute = NicknamesLangRouteImport.update({
   id: '/nicknames/$lang',
   path: '/nicknames/$lang',
@@ -154,6 +162,17 @@ const GeneratorSlugRoute = GeneratorSlugRouteImport.update({
   path: '/generator/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BestNicknamesSlugRoute = BestNicknamesSlugRouteImport.update({
+  id: '/best-nicknames/$slug',
+  path: '/best-nicknames/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BestNicknamesCountryCountryRoute =
+  BestNicknamesCountryCountryRouteImport.update({
+    id: '/best-nicknames/country/$country',
+    path: '/best-nicknames/country/$country',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -173,13 +192,16 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
   '/username-generator': typeof UsernameGeneratorRoute
+  '/best-nicknames/$slug': typeof BestNicknamesSlugRoute
   '/generator/$slug': typeof GeneratorSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/ideas/$slug': typeof IdeasSlugRoute
   '/nicknames/$lang': typeof NicknamesLangRoute
+  '/best-nicknames/': typeof BestNicknamesIndexRoute
   '/guides/': typeof GuidesIndexRoute
   '/ideas/': typeof IdeasIndexRoute
   '/nicknames/': typeof NicknamesIndexRoute
+  '/best-nicknames/country/$country': typeof BestNicknamesCountryCountryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -199,13 +221,16 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
   '/username-generator': typeof UsernameGeneratorRoute
+  '/best-nicknames/$slug': typeof BestNicknamesSlugRoute
   '/generator/$slug': typeof GeneratorSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/ideas/$slug': typeof IdeasSlugRoute
   '/nicknames/$lang': typeof NicknamesLangRoute
+  '/best-nicknames': typeof BestNicknamesIndexRoute
   '/guides': typeof GuidesIndexRoute
   '/ideas': typeof IdeasIndexRoute
   '/nicknames': typeof NicknamesIndexRoute
+  '/best-nicknames/country/$country': typeof BestNicknamesCountryCountryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -226,13 +251,16 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
   '/username-generator': typeof UsernameGeneratorRoute
+  '/best-nicknames/$slug': typeof BestNicknamesSlugRoute
   '/generator/$slug': typeof GeneratorSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/ideas/$slug': typeof IdeasSlugRoute
   '/nicknames/$lang': typeof NicknamesLangRoute
+  '/best-nicknames/': typeof BestNicknamesIndexRoute
   '/guides/': typeof GuidesIndexRoute
   '/ideas/': typeof IdeasIndexRoute
   '/nicknames/': typeof NicknamesIndexRoute
+  '/best-nicknames/country/$country': typeof BestNicknamesCountryCountryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -254,13 +282,16 @@ export interface FileRouteTypes {
     | '/terms'
     | '/tools'
     | '/username-generator'
+    | '/best-nicknames/$slug'
     | '/generator/$slug'
     | '/guides/$slug'
     | '/ideas/$slug'
     | '/nicknames/$lang'
+    | '/best-nicknames/'
     | '/guides/'
     | '/ideas/'
     | '/nicknames/'
+    | '/best-nicknames/country/$country'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -280,13 +311,16 @@ export interface FileRouteTypes {
     | '/terms'
     | '/tools'
     | '/username-generator'
+    | '/best-nicknames/$slug'
     | '/generator/$slug'
     | '/guides/$slug'
     | '/ideas/$slug'
     | '/nicknames/$lang'
+    | '/best-nicknames'
     | '/guides'
     | '/ideas'
     | '/nicknames'
+    | '/best-nicknames/country/$country'
   id:
     | '__root__'
     | '/'
@@ -306,13 +340,16 @@ export interface FileRouteTypes {
     | '/terms'
     | '/tools'
     | '/username-generator'
+    | '/best-nicknames/$slug'
     | '/generator/$slug'
     | '/guides/$slug'
     | '/ideas/$slug'
     | '/nicknames/$lang'
+    | '/best-nicknames/'
     | '/guides/'
     | '/ideas/'
     | '/nicknames/'
+    | '/best-nicknames/country/$country'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -333,13 +370,16 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   ToolsRoute: typeof ToolsRoute
   UsernameGeneratorRoute: typeof UsernameGeneratorRoute
+  BestNicknamesSlugRoute: typeof BestNicknamesSlugRoute
   GeneratorSlugRoute: typeof GeneratorSlugRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
   IdeasSlugRoute: typeof IdeasSlugRoute
   NicknamesLangRoute: typeof NicknamesLangRoute
+  BestNicknamesIndexRoute: typeof BestNicknamesIndexRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
   IdeasIndexRoute: typeof IdeasIndexRoute
   NicknamesIndexRoute: typeof NicknamesIndexRoute
+  BestNicknamesCountryCountryRoute: typeof BestNicknamesCountryCountryRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -484,6 +524,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuidesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/best-nicknames/': {
+      id: '/best-nicknames/'
+      path: '/best-nicknames'
+      fullPath: '/best-nicknames/'
+      preLoaderRoute: typeof BestNicknamesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/nicknames/$lang': {
       id: '/nicknames/$lang'
       path: '/nicknames/$lang'
@@ -512,6 +559,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GeneratorSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/best-nicknames/$slug': {
+      id: '/best-nicknames/$slug'
+      path: '/best-nicknames/$slug'
+      fullPath: '/best-nicknames/$slug'
+      preLoaderRoute: typeof BestNicknamesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/best-nicknames/country/$country': {
+      id: '/best-nicknames/country/$country'
+      path: '/best-nicknames/country/$country'
+      fullPath: '/best-nicknames/country/$country'
+      preLoaderRoute: typeof BestNicknamesCountryCountryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -533,24 +594,17 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   ToolsRoute: ToolsRoute,
   UsernameGeneratorRoute: UsernameGeneratorRoute,
+  BestNicknamesSlugRoute: BestNicknamesSlugRoute,
   GeneratorSlugRoute: GeneratorSlugRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   IdeasSlugRoute: IdeasSlugRoute,
   NicknamesLangRoute: NicknamesLangRoute,
+  BestNicknamesIndexRoute: BestNicknamesIndexRoute,
   GuidesIndexRoute: GuidesIndexRoute,
   IdeasIndexRoute: IdeasIndexRoute,
   NicknamesIndexRoute: NicknamesIndexRoute,
+  BestNicknamesCountryCountryRoute: BestNicknamesCountryCountryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

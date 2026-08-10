@@ -3,6 +3,7 @@ import type {} from "@tanstack/react-start";
 import { NICHES, GUIDES, TOOLS } from "@/lib/content";
 import { LANDING_PAGES } from "@/lib/landing";
 import { LOCALES } from "@/lib/i18n";
+import { MARKET_PAGES, COUNTRIES } from "@/lib/markets";
 
 const BASE_URL = "https://bestnickfinder.online";
 
@@ -36,6 +37,17 @@ export const Route = createFileRoute("/sitemap.xml")({
             path: `/nicknames/${l.code}`,
             changefreq: "weekly" as const,
             priority: "0.7",
+          })),
+          { path: "/best-nicknames", changefreq: "weekly" as const, priority: "0.9" },
+          ...COUNTRIES.map((c) => ({
+            path: `/best-nicknames/country/${c.slug}`,
+            changefreq: "weekly" as const,
+            priority: "0.8",
+          })),
+          ...MARKET_PAGES.map((m) => ({
+            path: `/best-nicknames/${m.slug}`,
+            changefreq: "weekly" as const,
+            priority: "0.8",
           })),
           ...LANDING_PAGES.map((l) => ({
             path: `/ideas/${l.slug}`,
