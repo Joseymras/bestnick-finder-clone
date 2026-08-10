@@ -6,7 +6,7 @@ import { JsonLd, Prose } from "@/components/site/Blocks";
 import { ExploreMore } from "@/components/site/LinkHub";
 import { FaqSection, faqJsonLd } from "@/components/site/Faq";
 import { AdSlot } from "@/components/site/AdSlot";
-import { MARKET_MAP, MARKET_PAGES } from "@/lib/markets";
+import { MARKET_MAP, MARKET_PAGES, type MarketPage } from "@/lib/markets";
 import { buildHead, breadcrumbJsonLd, toolJsonLd } from "@/lib/seo";
 import { SITE } from "@/lib/content";
 
@@ -31,7 +31,7 @@ export const Route = createFileRoute("/best-nicknames/$slug")({
 });
 
 function Page() {
-  const page = Route.useLoaderData();
+  const page = Route.useLoaderData() as MarketPage;
   const { country, platform } = page;
   const siblings = MARKET_PAGES.filter(
     (m) => m.platform.slug === platform.slug && m.country.slug !== country.slug,

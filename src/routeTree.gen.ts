@@ -33,6 +33,7 @@ import { Route as NicknamesLangRouteImport } from './routes/nicknames.$lang'
 import { Route as IdeasSlugRouteImport } from './routes/ideas.$slug'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as GeneratorSlugRouteImport } from './routes/generator.$slug'
+import { Route as BestNicknamesSlugRouteImport } from './routes/best-nicknames.$slug'
 
 const UsernameGeneratorRoute = UsernameGeneratorRouteImport.update({
   id: '/username-generator',
@@ -154,6 +155,11 @@ const GeneratorSlugRoute = GeneratorSlugRouteImport.update({
   path: '/generator/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BestNicknamesSlugRoute = BestNicknamesSlugRouteImport.update({
+  id: '/best-nicknames/$slug',
+  path: '/best-nicknames/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
   '/username-generator': typeof UsernameGeneratorRoute
+  '/best-nicknames/$slug': typeof BestNicknamesSlugRoute
   '/generator/$slug': typeof GeneratorSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/ideas/$slug': typeof IdeasSlugRoute
@@ -199,6 +206,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
   '/username-generator': typeof UsernameGeneratorRoute
+  '/best-nicknames/$slug': typeof BestNicknamesSlugRoute
   '/generator/$slug': typeof GeneratorSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/ideas/$slug': typeof IdeasSlugRoute
@@ -226,6 +234,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
   '/username-generator': typeof UsernameGeneratorRoute
+  '/best-nicknames/$slug': typeof BestNicknamesSlugRoute
   '/generator/$slug': typeof GeneratorSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/ideas/$slug': typeof IdeasSlugRoute
@@ -254,6 +263,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/tools'
     | '/username-generator'
+    | '/best-nicknames/$slug'
     | '/generator/$slug'
     | '/guides/$slug'
     | '/ideas/$slug'
@@ -280,6 +290,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/tools'
     | '/username-generator'
+    | '/best-nicknames/$slug'
     | '/generator/$slug'
     | '/guides/$slug'
     | '/ideas/$slug'
@@ -306,6 +317,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/tools'
     | '/username-generator'
+    | '/best-nicknames/$slug'
     | '/generator/$slug'
     | '/guides/$slug'
     | '/ideas/$slug'
@@ -333,6 +345,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   ToolsRoute: typeof ToolsRoute
   UsernameGeneratorRoute: typeof UsernameGeneratorRoute
+  BestNicknamesSlugRoute: typeof BestNicknamesSlugRoute
   GeneratorSlugRoute: typeof GeneratorSlugRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
   IdeasSlugRoute: typeof IdeasSlugRoute
@@ -512,6 +525,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GeneratorSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/best-nicknames/$slug': {
+      id: '/best-nicknames/$slug'
+      path: '/best-nicknames/$slug'
+      fullPath: '/best-nicknames/$slug'
+      preLoaderRoute: typeof BestNicknamesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -533,6 +553,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   ToolsRoute: ToolsRoute,
   UsernameGeneratorRoute: UsernameGeneratorRoute,
+  BestNicknamesSlugRoute: BestNicknamesSlugRoute,
   GeneratorSlugRoute: GeneratorSlugRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   IdeasSlugRoute: IdeasSlugRoute,
@@ -544,13 +565,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
