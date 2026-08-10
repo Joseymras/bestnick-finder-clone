@@ -6,6 +6,7 @@ import { pushRecent } from "@/lib/live";
 import { useSelection } from "@/hooks/use-selection";
 import { SelectableResults, SelectionControls } from "./SelectableResults";
 import { ExportBar } from "./ExportBar";
+import { useUiLang } from "@/lib/ui-lang";
 
 const FLAVORS: { id: NameFlavor; label: string }[] = [
   { id: "random", label: "Surprise me" },
@@ -33,6 +34,7 @@ export function NameGenerator({
   showFlavors?: boolean;
   tool?: string;
 }) {
+  const { t } = useUiLang();
   const [flavor, setFlavor] = useState<NameFlavor>(defaultFlavor);
   const [letters, setLetters] = useState("");
   const [names, setNames] = useState<string[]>([]);
@@ -52,13 +54,13 @@ export function NameGenerator({
       <div className="flex flex-wrap items-end gap-3">
         <div className="min-w-[180px] flex-1">
           <label htmlFor="letters" className="mb-1.5 block text-sm font-semibold">
-            First letters (optional)
+            {t.firstLetters}
           </label>
           <input
             id="letters"
             value={letters}
             onChange={(e) => setLetters(e.target.value.replace(/[^a-zA-Z]/g, "").slice(0, 6))}
-            placeholder="e.g. Ar"
+            placeholder={t.firstLettersHint}
             className="w-full rounded-lg border border-input bg-background px-3 py-2.5 outline-none ring-ring/40 transition focus:border-primary focus:ring-4"
           />
         </div>
@@ -74,7 +76,7 @@ export function NameGenerator({
           }}
           className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
         >
-          <RefreshCw className="h-4 w-4" /> Generate
+          <RefreshCw className="h-4 w-4" /> {t.generate}
         </button>
       </div>
 
@@ -116,10 +118,7 @@ export function NameGenerator({
         />
       </div>
 
-      <p className="mt-2 text-xs text-muted-foreground">
-        Tick the names you like, then copy, download or share only your selection. With nothing
-        ticked, exports include every result.
-      </p>
+      <p className="mt-2 text-xs text-muted-foreground">{t.exportHint}</p>
 
       <div className="mt-4">
         <SelectableResults
@@ -127,6 +126,7 @@ export function NameGenerator({
           selected={selected}
           onToggle={toggle}
           tool={tool}
+          votable
         />
       </div>
     </div>
