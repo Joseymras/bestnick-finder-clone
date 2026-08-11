@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WidgetRouteImport } from './routes/widget'
 import { Route as UsernameGeneratorRouteImport } from './routes/username-generator'
 import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as TermsRouteImport } from './routes/terms'
@@ -19,6 +20,7 @@ import { Route as PasswordGeneratorRouteImport } from './routes/password-generat
 import { Route as NicknameGeneratorRouteImport } from './routes/nickname-generator'
 import { Route as NameMixerRouteImport } from './routes/name-mixer'
 import { Route as FancyTextGeneratorRouteImport } from './routes/fancy-text-generator'
+import { Route as EmbedRouteImport } from './routes/embed'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as CookiePolicyRouteImport } from './routes/cookie-policy'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -37,6 +39,11 @@ import { Route as GeneratorSlugRouteImport } from './routes/generator.$slug'
 import { Route as BestNicknamesSlugRouteImport } from './routes/best-nicknames.$slug'
 import { Route as BestNicknamesCountryCountryRouteImport } from './routes/best-nicknames.country.$country'
 
+const WidgetRoute = WidgetRouteImport.update({
+  id: '/widget',
+  path: '/widget',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UsernameGeneratorRoute = UsernameGeneratorRouteImport.update({
   id: '/username-generator',
   path: '/username-generator',
@@ -85,6 +92,11 @@ const NameMixerRoute = NameMixerRouteImport.update({
 const FancyTextGeneratorRoute = FancyTextGeneratorRouteImport.update({
   id: '/fancy-text-generator',
   path: '/fancy-text-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmbedRoute = EmbedRouteImport.update({
+  id: '/embed',
+  path: '/embed',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DisclaimerRoute = DisclaimerRouteImport.update({
@@ -182,6 +194,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/cookie-policy': typeof CookiePolicyRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/embed': typeof EmbedRoute
   '/fancy-text-generator': typeof FancyTextGeneratorRoute
   '/name-mixer': typeof NameMixerRoute
   '/nickname-generator': typeof NicknameGeneratorRoute
@@ -192,6 +205,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
   '/username-generator': typeof UsernameGeneratorRoute
+  '/widget': typeof WidgetRoute
   '/best-nicknames/$slug': typeof BestNicknamesSlugRoute
   '/generator/$slug': typeof GeneratorSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
@@ -211,6 +225,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/cookie-policy': typeof CookiePolicyRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/embed': typeof EmbedRoute
   '/fancy-text-generator': typeof FancyTextGeneratorRoute
   '/name-mixer': typeof NameMixerRoute
   '/nickname-generator': typeof NicknameGeneratorRoute
@@ -221,6 +236,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
   '/username-generator': typeof UsernameGeneratorRoute
+  '/widget': typeof WidgetRoute
   '/best-nicknames/$slug': typeof BestNicknamesSlugRoute
   '/generator/$slug': typeof GeneratorSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
@@ -241,6 +257,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/cookie-policy': typeof CookiePolicyRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/embed': typeof EmbedRoute
   '/fancy-text-generator': typeof FancyTextGeneratorRoute
   '/name-mixer': typeof NameMixerRoute
   '/nickname-generator': typeof NicknameGeneratorRoute
@@ -251,6 +268,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRoute
   '/username-generator': typeof UsernameGeneratorRoute
+  '/widget': typeof WidgetRoute
   '/best-nicknames/$slug': typeof BestNicknamesSlugRoute
   '/generator/$slug': typeof GeneratorSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
@@ -272,6 +290,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cookie-policy'
     | '/disclaimer'
+    | '/embed'
     | '/fancy-text-generator'
     | '/name-mixer'
     | '/nickname-generator'
@@ -282,6 +301,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/tools'
     | '/username-generator'
+    | '/widget'
     | '/best-nicknames/$slug'
     | '/generator/$slug'
     | '/guides/$slug'
@@ -301,6 +321,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cookie-policy'
     | '/disclaimer'
+    | '/embed'
     | '/fancy-text-generator'
     | '/name-mixer'
     | '/nickname-generator'
@@ -311,6 +332,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/tools'
     | '/username-generator'
+    | '/widget'
     | '/best-nicknames/$slug'
     | '/generator/$slug'
     | '/guides/$slug'
@@ -330,6 +352,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cookie-policy'
     | '/disclaimer'
+    | '/embed'
     | '/fancy-text-generator'
     | '/name-mixer'
     | '/nickname-generator'
@@ -340,6 +363,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/tools'
     | '/username-generator'
+    | '/widget'
     | '/best-nicknames/$slug'
     | '/generator/$slug'
     | '/guides/$slug'
@@ -360,6 +384,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   CookiePolicyRoute: typeof CookiePolicyRoute
   DisclaimerRoute: typeof DisclaimerRoute
+  EmbedRoute: typeof EmbedRoute
   FancyTextGeneratorRoute: typeof FancyTextGeneratorRoute
   NameMixerRoute: typeof NameMixerRoute
   NicknameGeneratorRoute: typeof NicknameGeneratorRoute
@@ -370,6 +395,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   ToolsRoute: typeof ToolsRoute
   UsernameGeneratorRoute: typeof UsernameGeneratorRoute
+  WidgetRoute: typeof WidgetRoute
   BestNicknamesSlugRoute: typeof BestNicknamesSlugRoute
   GeneratorSlugRoute: typeof GeneratorSlugRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
@@ -384,6 +410,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/widget': {
+      id: '/widget'
+      path: '/widget'
+      fullPath: '/widget'
+      preLoaderRoute: typeof WidgetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/username-generator': {
       id: '/username-generator'
       path: '/username-generator'
@@ -452,6 +485,13 @@ declare module '@tanstack/react-router' {
       path: '/fancy-text-generator'
       fullPath: '/fancy-text-generator'
       preLoaderRoute: typeof FancyTextGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/embed': {
+      id: '/embed'
+      path: '/embed'
+      fullPath: '/embed'
+      preLoaderRoute: typeof EmbedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/disclaimer': {
@@ -584,6 +624,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   CookiePolicyRoute: CookiePolicyRoute,
   DisclaimerRoute: DisclaimerRoute,
+  EmbedRoute: EmbedRoute,
   FancyTextGeneratorRoute: FancyTextGeneratorRoute,
   NameMixerRoute: NameMixerRoute,
   NicknameGeneratorRoute: NicknameGeneratorRoute,
@@ -594,6 +635,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   ToolsRoute: ToolsRoute,
   UsernameGeneratorRoute: UsernameGeneratorRoute,
+  WidgetRoute: WidgetRoute,
   BestNicknamesSlugRoute: BestNicknamesSlugRoute,
   GeneratorSlugRoute: GeneratorSlugRoute,
   GuidesSlugRoute: GuidesSlugRoute,
@@ -608,3 +650,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

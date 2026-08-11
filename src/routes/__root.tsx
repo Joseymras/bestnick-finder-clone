@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -148,13 +149,21 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  // The embeddable widget renders bare (no header/footer) so it fits inside an iframe.
+  const isWidget = useRouterState({
+    select: (s) => s.location.pathname.replace(/\/+$/, "") === "/widget",
+  });
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Layout>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+      {isWidget ? (
         <Outlet />
-      </Layout>
+      ) : (
+        <Layout>
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+        </Layout>
+      )}
     </QueryClientProvider>
   );
 }
