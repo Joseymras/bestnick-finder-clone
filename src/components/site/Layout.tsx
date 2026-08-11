@@ -155,6 +155,19 @@ export function SiteFooter() {
       </div>
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-4 px-4 py-5 text-xs text-ink-muted">
+          <a
+            href="https://www.producthunt.com/products/best-nick-finder?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-best-nick-finder"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              alt="Best Nick Finder - Create cool names for gaming and social media | Product Hunt"
+              width={250}
+              height={54}
+              loading="lazy"
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1219283&theme=light&t=1786352648327"
+            />
+          </a>
           <LanguageSwitcher compact />
           <span>
           © {new Date().getFullYear()} {SITE.domain}. Generated names are provided as-is for personal
