@@ -20,6 +20,7 @@ import { Route as PasswordGeneratorRouteImport } from './routes/password-generat
 import { Route as NicknameGeneratorRouteImport } from './routes/nickname-generator'
 import { Route as NameMixerRouteImport } from './routes/name-mixer'
 import { Route as FancyTextGeneratorRouteImport } from './routes/fancy-text-generator'
+import { Route as EmbedRouteImport } from './routes/embed'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as CookiePolicyRouteImport } from './routes/cookie-policy'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -91,6 +92,11 @@ const NameMixerRoute = NameMixerRouteImport.update({
 const FancyTextGeneratorRoute = FancyTextGeneratorRouteImport.update({
   id: '/fancy-text-generator',
   path: '/fancy-text-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmbedRoute = EmbedRouteImport.update({
+  id: '/embed',
+  path: '/embed',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DisclaimerRoute = DisclaimerRouteImport.update({
@@ -188,6 +194,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/cookie-policy': typeof CookiePolicyRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/embed': typeof EmbedRoute
   '/fancy-text-generator': typeof FancyTextGeneratorRoute
   '/name-mixer': typeof NameMixerRoute
   '/nickname-generator': typeof NicknameGeneratorRoute
@@ -218,6 +225,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/cookie-policy': typeof CookiePolicyRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/embed': typeof EmbedRoute
   '/fancy-text-generator': typeof FancyTextGeneratorRoute
   '/name-mixer': typeof NameMixerRoute
   '/nickname-generator': typeof NicknameGeneratorRoute
@@ -249,6 +257,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/cookie-policy': typeof CookiePolicyRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/embed': typeof EmbedRoute
   '/fancy-text-generator': typeof FancyTextGeneratorRoute
   '/name-mixer': typeof NameMixerRoute
   '/nickname-generator': typeof NicknameGeneratorRoute
@@ -281,6 +290,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cookie-policy'
     | '/disclaimer'
+    | '/embed'
     | '/fancy-text-generator'
     | '/name-mixer'
     | '/nickname-generator'
@@ -311,6 +321,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cookie-policy'
     | '/disclaimer'
+    | '/embed'
     | '/fancy-text-generator'
     | '/name-mixer'
     | '/nickname-generator'
@@ -341,6 +352,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cookie-policy'
     | '/disclaimer'
+    | '/embed'
     | '/fancy-text-generator'
     | '/name-mixer'
     | '/nickname-generator'
@@ -372,6 +384,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   CookiePolicyRoute: typeof CookiePolicyRoute
   DisclaimerRoute: typeof DisclaimerRoute
+  EmbedRoute: typeof EmbedRoute
   FancyTextGeneratorRoute: typeof FancyTextGeneratorRoute
   NameMixerRoute: typeof NameMixerRoute
   NicknameGeneratorRoute: typeof NicknameGeneratorRoute
@@ -472,6 +485,13 @@ declare module '@tanstack/react-router' {
       path: '/fancy-text-generator'
       fullPath: '/fancy-text-generator'
       preLoaderRoute: typeof FancyTextGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/embed': {
+      id: '/embed'
+      path: '/embed'
+      fullPath: '/embed'
+      preLoaderRoute: typeof EmbedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/disclaimer': {
@@ -604,6 +624,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   CookiePolicyRoute: CookiePolicyRoute,
   DisclaimerRoute: DisclaimerRoute,
+  EmbedRoute: EmbedRoute,
   FancyTextGeneratorRoute: FancyTextGeneratorRoute,
   NameMixerRoute: NameMixerRoute,
   NicknameGeneratorRoute: NicknameGeneratorRoute,
@@ -629,13 +650,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
