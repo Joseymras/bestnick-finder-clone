@@ -8,6 +8,7 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 const FOOTER_LEGAL = [
   { to: "/best-nicknames", label: "Countries" },
   { to: "/nicknames", label: "Languages" },
+  { to: "/embed", label: "Free embeddable widget" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
   { to: "/privacy-policy", label: "Privacy Policy" },
