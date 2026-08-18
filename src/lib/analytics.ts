@@ -20,7 +20,9 @@ export type ToolEvent =
   | "share"
   | "select_all"
   | "search"
-  | "vote";
+  | "vote"
+  | "favorite"
+  | "submit";
 
 /**
  * Track a tool interaction in GA4.
